@@ -1,3 +1,8 @@
+"""
+Streamlit app
+
+"""
+
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
@@ -42,7 +47,10 @@ st.set_page_config(
 )
 
 # Session State
-st_initilize_session_state_as_none(["document", "chroma", "filtered_df"])
+st_initilize_session_state_as_none(["document", "chroma", "filtered_df", "document_projections"])
+
+if "document_projections_done" not in st.session_state.keys():
+    st.session_state["document_projections_done"] = False
 
 # UI
 st_header()
@@ -52,7 +60,6 @@ if st.session_state['document'] is None:
     col1, col2 = st.columns(2)
     col1.markdown("### 1. Upload your PDF 📄")
     uploaded_file = col1.file_uploader("Upload your PDF", label_visibility="collapsed", type='pdf')
-    
     col1.markdown("### 2. Configurations (Optional) 🔧")
     st.session_state["chunk_size"] = col1.number_input("Chunk Size", value = 1000, step = 50)
     st.session_state["chunk_overlap"] = col1.number_input("Chunk Overlap", step = 50)
@@ -70,7 +77,7 @@ if st.session_state['document'] is None:
 
 else:
     # View 2
-    if st.session_state["chroma"] is None:
+    if st.session_state["chroma"] is None or st.session_state["document_projections_done"] == False:
         with st.spinner(BUILD_VDB_LOADING_MSG):
             st.session_state["chroma"] = build_vector_database(st.session_state['document'],
                                                                st.session_state["chunk_size"],
@@ -81,10 +88,12 @@ else:
             st.session_state["umap_transform"] = set_up_umap(st.session_state["document_embeddings"])
             st.session_state["document_projections"] = get_projections(st.session_state["document_embeddings"],
                                                                        st.session_state["umap_transform"])
+            
+            st.session_state["document_projections_done"] = True
             st.rerun()
 
     # View 3
-    else:
+    elif st.session_state["document_projections_done"]:
         col3, col4 = st.columns([0.8, 0.2])
         query = col3.text_input("Enter your query")
         col4.write("")
