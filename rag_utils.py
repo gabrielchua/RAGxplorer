@@ -16,15 +16,19 @@ from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunct
 from typing import (
     Tuple, 
     List, 
-    Any
+    Any,
+    Union,
+    TypeVar,
     )
+from typing_extensions import Protocol
 
+from chromadb import Documents Embeddings
 
-from chromadb import Documents, EmbeddingFunction, Embeddings
+Embeddable = Documents
+D = TypeVar("D", bound=Embeddable, contravariant=True)
 
-
-class AnyScaleEmbeddings(EmbeddingFunction):
-    def __call__(self, input: Documents) -> Embeddings:
+class AnyScaleEmbeddings(Protocol[D]):
+    def __call__(self, input: D) -> Embeddings:
 
         any_scale_client = OpenAI(
             base_url = "https://api.endpoints.anyscale.com/v1",
