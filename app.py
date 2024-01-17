@@ -66,7 +66,8 @@ if st.session_state['document'] is None:
     st.session_state["embedding_model"] = col1.selectbox("Select your embedding model",
                                   ["all-MiniLM-L6-v2",
                                    "text-embedding-ada-002", 
-                                   "gte-large"])
+                                  # "gte-large"
+                                   ])
 
     col1.markdown("### 3. Build VectorDB ⚡️")
     if col1.button("Build"):
