@@ -108,9 +108,9 @@ def _create_and_populate_chroma_collection(token_split_texts: List[str], embeddi
                 api_key=st.secrets['OPENAI_API_KEY'],
                 model_name="text-embedding-ada-002"
             )
-        chroma_collection = chroma_client.create_collection(document_name, embedding_function=openai_ef())
+        chroma_collection = chroma_client.create_collection(document_name, embedding_function=openai_ef)
     elif embedding_model == "gte-large":
-        chroma_collection = chroma_client.create_collection(document_name, embedding_function=AnyScaleEmbeddings())
+        chroma_collection = chroma_client.create_collection(document_name, embedding_function=AnyScaleEmbeddings)
     ids = [str(i) for i in range(len(token_split_texts))]
     chroma_collection.add(ids=ids, documents=token_split_texts)
     return chroma_collection
