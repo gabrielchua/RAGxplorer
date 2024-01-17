@@ -63,6 +63,10 @@ if st.session_state['document'] is None:
     col1.markdown("### 2. Configurations (Optional) 🔧")
     st.session_state["chunk_size"] = col1.number_input("Chunk Size", value = 1000, step = 50)
     st.session_state["chunk_overlap"] = col1.number_input("Chunk Overlap", step = 50)
+    st.session_state["embedding_model"] = col1.selectbox("Select your embedding model",
+                                  ["all-MiniLM-L6-v2",
+                                   "text-embedding-ada-002", 
+                                   "gte-large"])
 
     col1.markdown("### 3. Build VectorDB ⚡️")
     if col1.button("Build"):
@@ -81,7 +85,8 @@ else:
         with st.spinner(BUILD_VDB_LOADING_MSG):
             st.session_state["chroma"] = build_vector_database(st.session_state['document'],
                                                                st.session_state["chunk_size"],
-                                                               st.session_state["chunk_overlap"])
+                                                               st.session_state["chunk_overlap"],
+                                                               st.session_state["embedding_model"])
         with st.spinner(VISUALISE_LOADING_MSG):
             st.session_state["document_embeddings"] = get_doc_embeddings(st.session_state["chroma"])
             st.session_state["docs"] = get_docs(st.session_state["chroma"])

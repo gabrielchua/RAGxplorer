@@ -3,11 +3,15 @@ import string
 import chromadb
 import umap
 import numpy as np
+import streamlit as st
+from openai import OpenAI
+
 from PyPDF2 import PdfReader
 from langchain.text_splitter import (
     RecursiveCharacterTextSplitter,
     SentenceTransformersTokenTextSplitter
 )
+import chromadb.utils.embedding_functions as embedding_functions
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from typing import (
     Tuple, 
@@ -16,7 +20,26 @@ from typing import (
     )
 
 
-def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int) -> chromadb.Collection:
+from chromadb import Documents, EmbeddingFunction, Embeddings
+
+
+class AnyScaleEmbeddings(EmbeddingFunction):
+    def __call__(self, input: Documents) -> Embeddings:
+
+        any_scale_client = OpenAI(
+            base_url = "https://api.endpoints.anyscale.com/v1",
+            api_key = st.secrets["ANYSCALE_API_KEY"]
+        )
+
+        embedding = any_scale_client.embeddings.create(
+            model="thenlper/gte-large",
+            input=Documents,
+        )
+
+        return embedding.model_dump()
+
+
+def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedding_model: str) -> chromadb.Collection:
     """
     Builds a vector database from a PDF file by splitting the text into chunks and embedding them.
     
@@ -31,7 +54,7 @@ def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int) -> chr
     pdf_texts = _load_pdf(file)
     character_split_texts = _split_text_into_chunks(pdf_texts, chunk_size, chunk_overlap)
     token_split_texts = _split_chunks_into_tokens(character_split_texts)
-    chroma_collection = _create_and_populate_chroma_collection(token_split_texts)
+    chroma_collection = _create_and_populate_chroma_collection(token_split_texts, embedding_model)
     return chroma_collection
 
 def _split_text_into_chunks(pdf_texts: List[str], chunk_size: int, chunk_overlap: int) -> List[str]:
@@ -66,7 +89,7 @@ def _split_chunks_into_tokens(character_split_texts: List[str]) -> List[str]:
     token_splitter = SentenceTransformersTokenTextSplitter(chunk_overlap=0, tokens_per_chunk=256)
     return [text for chunk in character_split_texts for text in token_splitter.split_text(chunk)]
 
-def _create_and_populate_chroma_collection(token_split_texts: List[str]) -> chromadb.Collection:
+def _create_and_populate_chroma_collection(token_split_texts: List[str], embedding_model) -> chromadb.Collection:
     """
     Creates a Chroma collection and populates it with the given text chunks.
     
@@ -78,7 +101,16 @@ def _create_and_populate_chroma_collection(token_split_texts: List[str]) -> chro
     """
     chroma_client = chromadb.Client()
     document_name = _generate_random_string(10)
-    chroma_collection = chroma_client.create_collection(document_name, embedding_function=SentenceTransformerEmbeddingFunction())
+    if embedding_model == "all-MiniLM-L6-v2":
+        chroma_collection = chroma_client.create_collection(document_name, embedding_function=SentenceTransformerEmbeddingFunction())
+    elif embedding_model == "text-embedding-ada-002":
+        openai_ef = embedding_functions.OpenAIEmbeddingFunction(
+                api_key=st.secrets['OPENAI_API_KEY'],
+                model_name="text-embedding-ada-002"
+            )
+        chroma_collection = chroma_client.create_collection(document_name, embedding_function=openai_ef())
+    elif embedding_model == "gte-large":
+        chroma_collection = chroma_client.create_collection(document_name, embedding_function=AnyScaleEmbeddings())
     ids = [str(i) for i in range(len(token_split_texts))]
     chroma_collection.add(ids=ids, documents=token_split_texts)
     return chroma_collection
