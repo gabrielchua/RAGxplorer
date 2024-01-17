@@ -22,7 +22,7 @@ from typing import (
     )
 from typing_extensions import Protocol
 
-from chromadb import Documents Embeddings
+from chromadb import Documents, Embeddings
 
 Embeddable = Documents
 D = TypeVar("D", bound=Embeddable, contravariant=True)
