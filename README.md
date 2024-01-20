@@ -2,7 +2,7 @@
 
 RAGxplorer is an interactive tool for visualizing document chunks in the embedding space, designed to diagnose and explore applications of the Retriever-Answer Generator (RAG) model.
 
-![Screenshot]("example.png")
+![Screenshot](example.png)
 
 ## Overview
 
