@@ -59,6 +59,7 @@ st_header()
 if st.session_state['document'] is None:
     col1, col2 = st.columns(2)
     col1.markdown("### 1. Upload your PDF 📄")
+    col1.markdown("For this demo, a 10-20 page PDF is recommended.")
     uploaded_file = col1.file_uploader("Upload your PDF", label_visibility="collapsed", type='pdf')
     col1.markdown("### 2. Configurations (Optional) 🔧")
     st.session_state["chunk_size"] = col1.number_input("Chunk Size", value = 1000, step = 50)

@@ -6,9 +6,9 @@ CHUNK_EXPLAINER = "In RAG, your document is divided into parts (i.e. chunks) for
                 "\"Chunk Size\" is the number of tokens in one of these chunks, and \"Chunk Overlap\" is the number of tokens shared between consecutive chunks to maintain context. \n\n"\
                 "One word is about 3-4 tokens."
 
-BUILD_VDB_LOADING_MSG = 'Building the vector database 🚧 ...'
+BUILD_VDB_LOADING_MSG = 'Building the vector database 🚧 ... It takes about 1-2 minutes, depending on the size of your PDF. Please do not close this app. 🙏'
 
-VISUALISE_LOADING_MSG = 'Visualising your chunks 🎨 ...'
+VISUALISE_LOADING_MSG = 'Visualising your chunks 🎨 ... It takes about 2-3 minutes, depending on the size of your PDF. Please do not close this app. 🙏'
 
 VISUALISATION_SETTINGS = {
             'Original Query': {'color': 'red', 'opacity': 1, 'symbol': 'cross', 'size': 15},
