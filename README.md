@@ -36,11 +36,13 @@ pip install -r requirements.txt
 
 ## Usage
 
-To start the application, run:
 
-```bash
-streamlit run app.py
-```
+1. Setup `OPENAI_API_KEY` (required) and `ANYSCALE_API_KEY` (if you need anyscale). Copy
+    the `.streamlit/secrets.example.toml` file to `.streamlit/secrets.toml` and fill in the values.
+2. To start the application, run:
+    ```bash
+    streamlit run app.py
+    ```
 
 Navigate to the URL provided by Streamlit to interact with the application.
 
