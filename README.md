@@ -30,6 +30,8 @@ pip install -r requirements-local-deployment.txt
 
 ⚠️ Do not use `requirements.txt`. That is so the free streamlit deployment can run. That file includes an additional `pysqlite3-binary` dependency. 
 
+⚠️ If it helps with troubleshooting, this application was built using Python 3.11
+
 ## Usage 🏎️
 
 1. Setup `OPENAI_API_KEY` (required) and `ANYSCALE_API_KEY` (if you need anyscale). Copy
