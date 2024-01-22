@@ -4,7 +4,7 @@
 
 RAGxplorer is an interactive streamlit tool to support the building of Retrieval Augmented Generation (RAG) applications by visualizing document chunks and the queries in the embedding space. 
 
-🚨 **22 Jan 2023 Update** I will be re-factoring the code massively to be a standalone package, instead of being within a streamlit application. Until then, I appreciate your patience. Further suggestions will be most appreciated [here](https://github.com/gabrielchua/RAGxplorer/issues/3).
+🚨 **22 Jan 2023 Update:** I will be re-factoring the code massively to be a standalone package, instead of being within a streamlit application. Until then, I appreciate your patience. Further suggestions will be most appreciated [here](https://github.com/gabrielchua/RAGxplorer/issues/3).
 
 ## Demo 🔎
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rag-xplorer.streamlit.app/)
