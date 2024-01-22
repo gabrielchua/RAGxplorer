@@ -28,15 +28,24 @@ To run RAGxplorer, ensure you have Python installed, and then install the necess
 pip install -r requirements-local-deployment.txt
 ```
 
+Do not use `requirements.txt`. That is for the free streamlit deployment, and there is an additional `pysqlite3-binary` dependency. 
+
 ## Usage
 
 1. Setup `OPENAI_API_KEY` (required) and `ANYSCALE_API_KEY` (if you need anyscale). Copy
     the `.streamlit/secrets.example.toml` file to `.streamlit/secrets.toml` and fill in the values.
 2. To start the application, run:
+    ```bash
+    streamlit run app.py
+    ```
+3. You may need to comment out/remove line 4-7 in `app.py`. 
+    ```python
+    __import__('pysqlite3')
+    import sys
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+    ```
 
-```bash
-streamlit run app.py
-```
+    This repo is currently linked to the streamlit demo, and these lines were added due to the runtime in the free streamlit deployment env. See [here](https://discuss.streamlit.io/t/issues-with-chroma-and-sqlite/47950).
 
 ## Contributing
 
