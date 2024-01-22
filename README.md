@@ -7,7 +7,7 @@ RAGxplorer is an interactive streamlit tool to support the building of Retrieval
 ## Demo
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rag-xplorer.streamlit.app/)
 
-_Due to [infra limitations](https://discuss.streamlit.io/t/is-there-streamlit-app-limitations-such-as-usage-time-users-etc/42800), this freely hosted demo may occassionaly go down. The best experience is to clone this repo, and run it locally._
+⚠️ _Due to [infra limitations](https://discuss.streamlit.io/t/is-there-streamlit-app-limitations-such-as-usage-time-users-etc/42800), this freely hosted demo may occassionaly go down. The best experience is to clone this repo, and run it locally._
 
 <img src="images/example.png" width="650">
 
@@ -28,7 +28,7 @@ To run RAGxplorer, ensure you have Python installed, and then install the necess
 pip install -r requirements-local-deployment.txt
 ```
 
-Do not use `requirements.txt`. That is for the free streamlit deployment, and there is an additional `pysqlite3-binary` dependency. 
+⚠️ Do not use `requirements.txt`. That is for the free streamlit deployment, and there is an additional `pysqlite3-binary` dependency. 
 
 ## Usage
 
@@ -45,7 +45,7 @@ Do not use `requirements.txt`. That is for the free streamlit deployment, and th
     sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
     ```
 
-    This repo is currently linked to the streamlit demo, and these lines were added due to the runtime in the free streamlit deployment env. See [here](https://discuss.streamlit.io/t/issues-with-chroma-and-sqlite/47950).
+   ⚠️ This repo is currently linked to the streamlit demo, and these lines were added due to the runtime in the free streamlit deployment env. See [here](https://discuss.streamlit.io/t/issues-with-chroma-and-sqlite/47950).
 
 ## Contributing
 
