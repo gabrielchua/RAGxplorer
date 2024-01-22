@@ -25,7 +25,7 @@ _Due to [infra limitations](https://discuss.streamlit.io/t/is-there-streamlit-ap
 To run RAGxplorer, ensure you have Python installed, and then install the necessary dependencies:
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-local-deployment.txt
 ```
 
 ## Usage
