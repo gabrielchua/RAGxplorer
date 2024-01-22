@@ -10,6 +10,11 @@ RAGxplorer allows users to upload documents, convert them into chunked formats s
 
 <img src="images/example.png" width="650">
 
+## Try Me
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rag-xplorer.streamlit.app/)
+
+Due to the [1GB memory limit](https://discuss.streamlit.io/t/is-there-streamlit-app-limitations-such-as-usage-time-users-etc/42800) on streamlit's community hosting, this demo may occassionaly go down. The best way to try this app is to clone this repo, and run it locally.
+
 ## Features
 
 - **Document Upload**: Users can upload PDF documents.
