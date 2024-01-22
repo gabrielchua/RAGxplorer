@@ -38,8 +38,9 @@ streamlit run app.py
 
 ## Contributing
 
-Contributions to RAGxplorer are welcome. Please read our contributing guidelines for details on our code of conduct and the process for submitting pull requests.
-License
+Contributions to RAGxplorer are welcome. Please read our [contributing guidelines (WIP)](.github/CONTRIBUTING.md) for details.
+
+## License
 
 This project is licensed under the MIT license - see the LICENSE file for details.
 
