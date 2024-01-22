@@ -1,12 +1,13 @@
 # RAGxplorer 🦙🦺 
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rag-xplorer.streamlit.app/)
-
-_Due to [infra limitations](https://discuss.streamlit.io/t/is-there-streamlit-app-limitations-such-as-usage-time-users-etc/42800), this freely hosted demo may occassionaly go down. The best experience is to clone this repo, and run it locally._
-
 <img src="images/logo.png" width="200">
 
 RAGxplorer is an interactive streamlit tool to support the building of Retrieval Augmented Generation (RAG) applications by visualizing document chunks and the queries in the embedding space. 
+
+## Demo
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rag-xplorer.streamlit.app/)
+
+_Due to [infra limitations](https://discuss.streamlit.io/t/is-there-streamlit-app-limitations-such-as-usage-time-users-etc/42800), this freely hosted demo may occassionaly go down. The best experience is to clone this repo, and run it locally._
 
 <img src="images/example.png" width="650">
 
