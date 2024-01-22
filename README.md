@@ -28,7 +28,7 @@ To run RAGxplorer, ensure you have Python installed, and then install the necess
 pip install -r requirements-local-deployment.txt
 ```
 
-⚠️ Do not use `requirements.txt`. That is for the free streamlit deployment, and there is an additional `pysqlite3-binary` dependency. 
+⚠️ Do not use `requirements.txt`. That is so the free streamlit deployment can run. That file includes an additional `pysqlite3-binary` dependency. 
 
 ## Usage 🏎️
 
