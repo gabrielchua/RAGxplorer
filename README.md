@@ -4,16 +4,15 @@
 
 RAGxplorer is an interactive tool for visualizing document chunks in the embedding space, designed to diagnose and explore applications of the Retriever-Answer Generator (RAG) model.
 
-## Overview
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rag-xplorer.streamlit.app/)
+
+_Due to the [1GB memory limit](https://discuss.streamlit.io/t/is-there-streamlit-app-limitations-such-as-usage-time-users-etc/42800) on streamlit's community hosting, this demo may occassionaly go down. The best way to try this app is to clone this repo, and run it locally._
+
+## Introduction
 
 RAGxplorer allows users to upload documents, convert them into chunked formats suitable for RAG applications, and visualize these chunks in an embedding space. This visualization aids in understanding how different chunks relate to each other and to specific queries, thereby providing insights into the workings of RAG-based systems.
 
 <img src="images/example.png" width="650">
-
-## Try Me
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rag-xplorer.streamlit.app/)
-
-Due to the [1GB memory limit](https://discuss.streamlit.io/t/is-there-streamlit-app-limitations-such-as-usage-time-users-etc/42800) on streamlit's community hosting, this demo may occassionaly go down. The best way to try this app is to clone this repo, and run it locally.
 
 ## Features
 
