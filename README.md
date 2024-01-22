@@ -38,7 +38,7 @@ pip install -r requirements-local-deployment.txt
     ```bash
     streamlit run app.py
     ```
-3. You may need to comment out/remove line 4-7 in `app.py`. 
+3. You may need to comment out/remove line 5-7 in `app.py`. 
     ```python
     __import__('pysqlite3')
     import sys
