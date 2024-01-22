@@ -4,7 +4,8 @@
 
 RAGxplorer is an interactive streamlit tool to support the building of Retrieval Augmented Generation (RAG) applications by visualizing document chunks and the queries in the embedding space. 
 
-🚨 **22 Jan 2023 Update:** I will be re-factoring the code massively to be a standalone package, instead of being within a streamlit application. Until then, I appreciate your patience. Further suggestions will be most appreciated [here](https://github.com/gabrielchua/RAGxplorer/issues/3).
+> [!NOTE]
+> I will be re-factoring the code massively to be a standalone package, instead of being within a streamlit application. Until then, I appreciate your patience. Further suggestions will be most appreciated [here](https://github.com/gabrielchua/RAGxplorer/issues/3).
 
 ## Demo 🔎
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rag-xplorer.streamlit.app/)
@@ -30,9 +31,10 @@ To run RAGxplorer, ensure you have Python installed, and then install the necess
 pip install -r requirements-local-deployment.txt
 ```
 
-⚠️ Do not use `requirements.txt`. That is so the free streamlit deployment can run. That file includes an additional `pysqlite3-binary` dependency. 
-
-⚠️ If it helps with troubleshooting, this application was built using Python 3.11
+> [!TIP]
+> ⚠️ Do not use `requirements.txt`. That is so the free streamlit deployment can run. That file includes an additional `pysqlite3-binary` dependency.
+> 
+> ⚠️ If it helps with troubleshooting, this application was built using Python 3.11
 
 ## Usage 🏎️
 
@@ -49,7 +51,8 @@ pip install -r requirements-local-deployment.txt
     sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
     ```
 
-   ⚠️ This repo is currently linked to the streamlit demo, and these lines were added due to the runtime in the free streamlit deployment env. See [here](https://discuss.streamlit.io/t/issues-with-chroma-and-sqlite/47950).
+> [!NOTE]
+> This repo is currently linked to the streamlit demo, and these lines were added due to the runtime in the free streamlit deployment env. See [here](https://discuss.streamlit.io/t/issues-with-chroma-and-sqlite/47950).
 
 ## Contributing 👋
 
