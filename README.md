@@ -6,7 +6,7 @@ RAGxplorer is an interactive tool for visualizing document chunks in the embeddi
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rag-xplorer.streamlit.app/)
 
-_Due to the [1GB memory limit](https://discuss.streamlit.io/t/is-there-streamlit-app-limitations-such-as-usage-time-users-etc/42800) on streamlit's community hosting, this demo may occassionaly go down. The best way to try this app is to clone this repo, and run it locally._
+_Due to the [1GB memory limit](https://discuss.streamlit.io/t/is-there-streamlit-app-limitations-such-as-usage-time-users-etc/42800) on Streamlit's free community hosting, this demo may occassionaly go down. The best way to try this app is to clone this repo, and run it locally._
 
 ## Introduction
 
