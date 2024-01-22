@@ -12,11 +12,12 @@ RAGxplorer allows users to upload documents, convert them into chunked formats s
 
 ## Features
 
-- **Document Upload**: Users can upload PDF documents that they wish to analyze.
-- **Chunk Configuration**: Options to configure the chunk size and overlap, offering flexibility in how the document is processed.
-- **Vector Database Creation**: Builds a vector database from the uploaded document for efficient retrieval and visualization.
+- **Document Upload**: Users can upload PDF documents.
+- **Chunk Configuration**: Options to configure the chunk size and overlap
+- **Choice of embedding model**: `all-MiniLM-L6-v2` or `text-embedding-ada-002`
+- **Vector Database Creation**: Builds a vector database using Chroma
 - **Query Expansion**: Generates sub-questions and hypothetical answers to enhance the retrieval process.
-- **Interactive Visualization**: Utilizes Plotly for dynamic and informative visual representations of the data.
+- **Interactive Visualization**: Utilizes Plotly to visualise the chunks.
 
 ## Installation
 
