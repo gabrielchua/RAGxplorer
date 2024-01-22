@@ -1,8 +1,8 @@
-# RAGxplorer 🦙🦺
+# RAGxplorer
 
 <img src="images/logo.png" width="200">
 
-RAGxplorer is an interactive tool for visualizing document chunks in the embedding space, designed to diagnose and explore applications of the Retriever-Answer Generator (RAG) model.
+RAGxplorer 🦙🦺 is an interactive tool for visualizing document chunks in the embedding space, designed to diagnose and explore applications of the Retriever-Answer Generator (RAG) model.
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rag-xplorer.streamlit.app/)
 
