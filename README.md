@@ -20,7 +20,7 @@ RAGxplorer is an interactive streamlit tool to support the building of Retrieval
 - **Query Expansion**: Generates sub-questions and hypothetical answers to enhance the retrieval process.
 - **Interactive Visualization**: Utilizes Plotly to visualise the chunks.
 
-## Installation ⚙️
+## Local Installation ⚙️
 
 To run RAGxplorer, ensure you have Python installed, and then install the necessary dependencies:
 
