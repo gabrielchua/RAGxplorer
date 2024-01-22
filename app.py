@@ -1,43 +1,42 @@
 """
 Streamlit app
-
 """
 
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# Uncomment line 5 to 7 for streamlit commmunity deployment
+# __import__('pysqlite3')
+# import sys
+# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 import streamlit as st
 import pandas as pd
-from ui import(
-    st_header
+from utils.st import(
+    st_header,
+    st_initilize_session_state_as_none
 )
-from rag_utils import (
+from utils.rag import (
     build_vector_database,
     query_chroma,
     get_embedding,
     get_docs,
-    get_doc_embeddings,
+    get_doc_embeddings
+    )
+from utils.projections import (
     set_up_umap,
     get_projections,
-    )
-from plots import plot_embeddings
-from query_expansion import (
+    prepare_projections_df,
+    plot_embeddings
+    )  
+from utils.query_expansion import (
     generate_sub_qn,
     generate_hypothetical_ans
 )
-from utils import (
-    st_initilize_session_state_as_none,
-    prepare_projections_df
-)
-from constants import (
+from utils.constants import (
     PLOT_SIZE,
     ABOUT_THIS_APP,
     CHUNK_EXPLAINER,
     BUILD_VDB_LOADING_MSG,
     VISUALISE_LOADING_MSG
 )
-
 
 st.set_page_config(
     page_title="RAGxplorer",
@@ -135,7 +134,6 @@ else:
                 st.session_state['query_projections_multi_qn'] = [get_projections(get_embedding(sub_qn), st.session_state["umap_transform"]) for sub_qn in st.session_state['query_expansion_multi']]
 
 
-                print(st.session_state['query_expansion_multi'])
                 df_query_multi = pd.DataFrame({"x": [projection[0][0] for projection in st.session_state['query_projections_multi_qn']],
                         "y": [projection[1][0] for projection in st.session_state['query_projections_multi_qn']],
                         "document_cleaned": st.session_state['query_expansion_multi'],
@@ -161,7 +159,7 @@ else:
                         "size": PLOT_SIZE
                         })
                 
-                # df_query_hypo = df_query_hypo.document_cleaned.str.wrap(80).apply(lambda x: x.replace('\n', '<br>'))
+                df_query_hypo = df_query_hypo.document_cleaned.str.wrap(80).apply(lambda x: x.replace('\n', '<br>'))
                 
                 df_query = pd.concat([df_query, df_query_hypo])
 
