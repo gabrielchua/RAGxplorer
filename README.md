@@ -4,14 +4,14 @@
 
 RAGxplorer is an interactive streamlit tool to support the building of Retrieval Augmented Generation (RAG) applications by visualizing document chunks and the queries in the embedding space. 
 
-## Demo
+## Demo 🔎
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rag-xplorer.streamlit.app/)
 
 ⚠️ _Due to [infra limitations](https://discuss.streamlit.io/t/is-there-streamlit-app-limitations-such-as-usage-time-users-etc/42800), this freely hosted demo may occassionaly go down. The best experience is to clone this repo, and run it locally._
 
 <img src="images/example.png" width="650">
 
-## Features
+## Features ✨
 
 - **Document Upload**: Users can upload PDF documents.
 - **Chunk Configuration**: Options to configure the chunk size and overlap
@@ -20,7 +20,7 @@ RAGxplorer is an interactive streamlit tool to support the building of Retrieval
 - **Query Expansion**: Generates sub-questions and hypothetical answers to enhance the retrieval process.
 - **Interactive Visualization**: Utilizes Plotly to visualise the chunks.
 
-## Installation
+## Installation ⚙️
 
 To run RAGxplorer, ensure you have Python installed, and then install the necessary dependencies:
 
@@ -30,7 +30,7 @@ pip install -r requirements-local-deployment.txt
 
 ⚠️ Do not use `requirements.txt`. That is for the free streamlit deployment, and there is an additional `pysqlite3-binary` dependency. 
 
-## Usage
+## Usage 🏎️
 
 1. Setup `OPENAI_API_KEY` (required) and `ANYSCALE_API_KEY` (if you need anyscale). Copy
     the `.streamlit/secrets.example.toml` file to `.streamlit/secrets.toml` and fill in the values.
@@ -47,14 +47,14 @@ pip install -r requirements-local-deployment.txt
 
    ⚠️ This repo is currently linked to the streamlit demo, and these lines were added due to the runtime in the free streamlit deployment env. See [here](https://discuss.streamlit.io/t/issues-with-chroma-and-sqlite/47950).
 
-## Contributing
+## Contributing 👋
 
 Contributions to RAGxplorer are welcome. Please read our [contributing guidelines (WIP)](.github/CONTRIBUTING.md) for details.
 
-## License
+## License 👀
 
 This project is licensed under the MIT license - see the LICENSE file for details.
 
-## Acknowledgments
-- DeepLearning.AI and Chroma for the inspiration and foundational code.
+## Acknowledgments 💙
+- DeepLearning.AI and Chroma for the inspiration and code labs in their [Advanced Retrival](https://www.deeplearning.ai/short-courses/advanced-retrieval-for-ai/) course.
 - The Streamlit community for the support and resources.
