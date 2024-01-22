@@ -1,4 +1,4 @@
-# RAGxplorer
+# RAGxplorer 🦙🦺
 
 <img src="images/logo.png" width="200">
 
