@@ -10,7 +10,7 @@ RAGxplorer is an interactive streamlit tool to support the building of Retrieval
 ## Demo 🔎
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rag-xplorer.streamlit.app/)
 
-⚠️ _Due to [infra limitations](https://discuss.streamlit.io/t/is-there-streamlit-app-limitations-such-as-usage-time-users-etc/42800), this freely hosted demo may occassionaly go down. The best experience is to clone this repo, and run it locally._
+⚠️ _Due to [infra limitations](https://discuss.streamlit.io/t/is-there-streamlit-app-limitations-such-as-usage-time-users-etc/42800), this freely hosted demo may occasionally go down. The best experience is to clone this repo, and run it locally._
 
 <img src="images/example.png" width="650">
 
