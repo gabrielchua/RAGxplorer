@@ -48,12 +48,8 @@ pip install -r requirements-local-deployment.txt
     ```bash
     streamlit run app.py
     ```
-3. You may need to comment out/remove line 5-7 in `app.py`. 
-    ```python
-    __import__('pysqlite3')
-    import sys
-    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
-    ```
+
+Alternatively, you can also use the `Dockerfile' and `docker-compose.yml'.
 
 > [!NOTE]
 > This repo is currently linked to the streamlit demo, and these lines were added due to the runtime in the free streamlit deployment env. See [here](https://discuss.streamlit.io/t/issues-with-chroma-and-sqlite/47950).
@@ -70,8 +66,7 @@ source venv/bin/activate # activate the virtual env
 pip install -r requirements.txt
 ```
 
-### Installation
-Usage 
+### Usage 
 ```python
 from ragxplorer.ragxplorer import Explorer
 client = Explorer(embedding_model="text-embedding-ada-002") # Please ensure "OPENAI_API_KEY" is set as an env variable
