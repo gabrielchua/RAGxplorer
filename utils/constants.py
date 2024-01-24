@@ -25,8 +25,8 @@ VISUALISE_LOADING_MSG = 'Visualising your chunks 🎨 ... It takes about 2-3 min
 
 VISUALISATION_SETTINGS = {
             'Original Query': {'color': 'red', 'opacity': 1, 'symbol': 'cross', 'size': 15},
-            'Retrived': {'color': 'green', 'opacity': 1, 'symbol': 'circle', 'size': 10},
-            'Chunks': {'color': 'blue', 'opacity': 0.4, 'symbol': 'circle', 'size': 10},
+            'Retrieved': {'color': 'magenta', 'opacity': 1, 'symbol': 'circle', 'size': 10},
+            'Chunks': {'color': 'orange', 'opacity': 0.8, 'symbol': 'circle', 'size': 10},
             'Sub-Questions': {'color': 'purple', 'opacity': 1, 'symbol': 'star', 'size': 15},
             'Hypothetical Ans': {'color': 'purple', 'opacity': 1, 'symbol': 'star', 'size': 15},
         }

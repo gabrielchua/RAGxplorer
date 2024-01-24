@@ -119,8 +119,6 @@ else:
                                   ["Naive", 
                                    "Query Expansion - Multiple Qns", 
                                    "Query Expansion - Hypothetical Ans"])
-        with col6.expander("Note"):
-            st.warning("Query Expansion is not yet implemented")
 
         df = prepare_projections_df()
 
@@ -179,13 +177,13 @@ else:
                                                             chroma_search,
                                                             top_k)
             st.session_state['retrieved_id'] = [int(index) for index in st.session_state['retrieved_id']]
-            df.loc[st.session_state['retrieved_id'], "category"] = "Retrived"
+            df.loc[st.session_state['retrieved_id'], "category"] = "Retrieved"
 
             df = pd.concat([df, df_query], axis = 0)
 
-            st.session_state["filtered_df"] = df[df['category'] == "Retrived"]
+            st.session_state["filtered_df"] = df[df['category'] == "Retrieved"]
 
-            st.markdown("### Retrived Chunk")
+            st.markdown("### Retrieved Chunks")
             st.dataframe(st.session_state["filtered_df"]['document'])
 
         with col5:
