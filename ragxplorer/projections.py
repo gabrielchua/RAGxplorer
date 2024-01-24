@@ -9,7 +9,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objs as go
 
-from utils.constants import (
+from .constants import (
     VISUALISATION_SETTINGS,
     PLOT_SIZE
     )
@@ -59,11 +59,11 @@ def _project_embeddings(embeddings: np.ndarray, umap_transform: umap.UMAP) -> np
         umap_embeddings[i] = umap_transform.transform([embedding])
     return umap_embeddings
 
-def prepare_projections_df():
-    df = pd.DataFrame({"x": st.session_state["document_projections"][0], 
-                    "y": st.session_state["document_projections"][1]})
+def prepare_projections_df(document_projections, document_text):
+    df = pd.DataFrame({"x": document_projections[0],
+                    "y": document_projections[1]})
     
-    df = df.assign(document=st.session_state["docs"])
+    df = df.assign(document=document_text)
 
     df['document_cleaned'] = df.document.str.wrap(80).apply(lambda x: x.replace('\n', '<br>'))
 
@@ -107,4 +107,4 @@ def plot_embeddings(df):
         )
     )
                 
-    return st.plotly_chart(fig, use_container_width=True)
+    return fig

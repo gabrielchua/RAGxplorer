@@ -1,15 +1,15 @@
 """
 Module for query expansion techniques
 """
+import os
 import json
-import streamlit as st
 from openai import OpenAI
-from utils.constants import (
+from .constants import (
     MULTIPLE_QNS_SYS_MSG,
     HYDE_SYS_MSG
 )
 
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 def generate_sub_qn(query):

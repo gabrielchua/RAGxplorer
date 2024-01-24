@@ -1,47 +1,23 @@
 """
 Module for RAG
 """
+import os
 import random
 import string
+from typing import (
+    List,
+    Any,
+    )
+
 import chromadb
 import numpy as np
-import streamlit as st
-from openai import OpenAI
-
 from PyPDF2 import PdfReader
 from langchain.text_splitter import (
     RecursiveCharacterTextSplitter,
     SentenceTransformersTokenTextSplitter
 )
-import chromadb.utils.embedding_functions as embedding_functions
-from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
-from typing import (
-    List, 
-    Any,
-    TypeVar,
-    )
-from typing_extensions import Protocol
 
-from chromadb import Documents, Embeddings
-
-Embeddable = Documents
-D = TypeVar("D", bound=Embeddable, contravariant=True)
-
-class AnyScaleEmbeddings(Protocol[D]):
-    def __call__(self, input: D) -> Embeddings:
-
-        any_scale_client = OpenAI(
-            base_url = "https://api.endpoints.anyscale.com/v1",
-            api_key = st.secrets["ANYSCALE_API_KEY"]
-        )
-
-        embedding = any_scale_client.embeddings.create(
-            model="thenlper/gte-large",
-            input=Documents,
-        )
-
-        return embedding.model_dump()
-
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedding_model: str) -> chromadb.Collection:
     """
@@ -105,16 +81,7 @@ def _create_and_populate_chroma_collection(token_split_texts: List[str], embeddi
     """
     chroma_client = chromadb.Client()
     document_name = _generate_random_string(10)
-    if embedding_model == "all-MiniLM-L6-v2":
-        chroma_collection = chroma_client.create_collection(document_name, embedding_function=SentenceTransformerEmbeddingFunction())
-    elif embedding_model == "text-embedding-ada-002":
-        openai_ef = embedding_functions.OpenAIEmbeddingFunction(
-                api_key=st.secrets['OPENAI_API_KEY'],
-                model_name="text-embedding-ada-002"
-            )
-        chroma_collection = chroma_client.create_collection(document_name, embedding_function=openai_ef)
-    elif embedding_model == "gte-large":
-        chroma_collection = chroma_client.create_collection(document_name, embedding_function=AnyScaleEmbeddings)
+    chroma_collection = chroma_client.create_collection(document_name, embedding_function=embedding_model)
     ids = [str(i) for i in range(len(token_split_texts))]
     chroma_collection.add(ids=ids, documents=token_split_texts)
     return chroma_collection
