@@ -59,6 +59,9 @@ pip install -r requirements-local-deployment.txt
 > This repo is currently linked to the streamlit demo, and these lines were added due to the runtime in the free streamlit deployment env. See [here](https://discuss.streamlit.io/t/issues-with-chroma-and-sqlite/47950).
 
 ## Using the experimental version.
+
+### Installation
+Enter the following in your terminal
 ```bash
 git clone -b experiment https://github.com/gabrielchua/RAGxplorer.git
 cd RAGxplorer
@@ -67,6 +70,8 @@ source venv/bin/activate # activate the virtual env
 pip install -r requirements.txt
 ```
 
+### Installation
+Usage 
 ```python
 from ragxplorer.ragxplorer import Explorer
 client = Explorer(embedding_model="text-embedding-ada-002") # Please ensure "OPENAI_API_KEY" is set as an env variable
