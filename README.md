@@ -53,8 +53,14 @@ pip install -r requirements-local-deployment.txt
 > This repo is currently linked to the streamlit demo, and these lines were added due to the runtime in the free streamlit deployment env. See [here](https://discuss.streamlit.io/t/issues-with-chroma-and-sqlite/47950).
 
 ## Option 2: Docker
-You may also refer to the `Dockerfile` and `docker-compose.yml`.
 
+To run the project using Docker, run the following command:
+
+```bash
+docker-compose up -d
+```
+
+Once the image is built and the container is running, you can access the application at `http://localhost:8501`.
 
 ## Using the experimental version 🧪
 
