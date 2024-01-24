@@ -27,8 +27,8 @@ RAGxplorer is an interactive streamlit tool to support the building of Retrieval
 - **Query Expansion**: Generates sub-questions and hypothetical answers to enhance the retrieval process.
 - **Interactive Visualization**: Utilizes Plotly to visualise the chunks.
 
-## Local Installation ⚙️
-
+## Option 1 💻
+### Installation ⚙️
 To run RAGxplorer, ensure you have Python installed, and then install the necessary dependencies:
 
 ```bash
@@ -40,7 +40,7 @@ pip install -r requirements-local-deployment.txt
 > 
 > ⚠️ If it helps with troubleshooting, this application was built using Python 3.11
 
-## Usage 🏎️
+### Usage 🏎️
 
 1. Setup `OPENAI_API_KEY` (required) and `ANYSCALE_API_KEY` (if you need anyscale). Copy
     the `.streamlit/secrets.example.toml` file to `.streamlit/secrets.toml` and fill in the values.
@@ -49,10 +49,12 @@ pip install -r requirements-local-deployment.txt
     streamlit run app.py
     ```
 
-Alternatively, you can also use the `Dockerfile' and `docker-compose.yml'.
-
 > [!NOTE]
 > This repo is currently linked to the streamlit demo, and these lines were added due to the runtime in the free streamlit deployment env. See [here](https://discuss.streamlit.io/t/issues-with-chroma-and-sqlite/47950).
+
+## Option 2: Docker
+You may also refer to the `Dockerfile` and `docker-compose.yml`.
+
 
 ## Using the experimental version 🧪
 
