@@ -5,7 +5,11 @@
 RAGxplorer is an interactive streamlit tool to support the building of Retrieval Augmented Generation (RAG) applications by visualizing document chunks and the queries in the embedding space. 
 
 > [!NOTE]
-> I will be re-factoring the code massively to be a standalone package, instead of being within a streamlit application. Until then, I appreciate your patience. Further suggestions will be most appreciated [here](https://github.com/gabrielchua/RAGxplorer/issues/3).
+> This app was for a [Streamlit competition](https://www.linkedin.com/posts/streamlit_ragxplorer-explore-the-embeddings-of-activity-7154217315566321664-6-d6), and was very scrapily put together one evening.
+>
+> I am re-factoring the code to be a package. You can view the progress in the `experiment` branch. Installation and usage details can be found [here](#using-the-experimental-version).
+>
+> Until then, I appreciate your patience, and suggestions will be most welcomed [here](https://github.com/gabrielchua/RAGxplorer/issues/3).
 
 ## Demo 🔎
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://rag-xplorer.streamlit.app/)
@@ -53,6 +57,22 @@ pip install -r requirements-local-deployment.txt
 
 > [!NOTE]
 > This repo is currently linked to the streamlit demo, and these lines were added due to the runtime in the free streamlit deployment env. See [here](https://discuss.streamlit.io/t/issues-with-chroma-and-sqlite/47950).
+
+## Using the experimental version.
+```bash
+git clone -b experiment https://github.com/gabrielchua/RAGxplorer.git
+cd RAGxplorer
+virtualenv venv # create a new virtual env
+source venv/bin/activate # activate the virtual env
+pip install -r requirements.txt
+```
+
+```python
+from ragxplorer.ragxplorer import Explorer
+client = Explorer(embedding_model="text-embedding-ada-002") # Please ensure "OPENAI_API_KEY" is set as an env variable
+client.load_document("presentation.pdf")
+client.visualise_query("What are the top revenue drivers for Microsoft?")
+```
 
 ## Contributing 👋
 
