@@ -52,7 +52,7 @@ pip install -r requirements-local-deployment.txt
 > [!NOTE]
 > This repo is currently linked to the streamlit demo, and these lines were added due to the runtime in the free streamlit deployment env. See [here](https://discuss.streamlit.io/t/issues-with-chroma-and-sqlite/47950).
 
-## Option 2: Docker
+## Option 2: Docker 🐳
 
 To run the project using Docker, run the following command:
 
