@@ -2,7 +2,7 @@
 Streamlit app
 """
 # Line 6 to 8 is for streamlit commmunity deployment
-try
+try:
     __import__('pysqlite3')
     import sys
     sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
