@@ -11,6 +11,14 @@ def st_initilize_session_state_as_none(key_list):
         if key not in st.session_state:
             st.session_state[key] = None
 
+def st_reset_application():
+    """
+    Resets streamlit application
+    """
+    st.session_state['document'] = None
+    st.session_state["document_projections_done"] = False
+    st.rerun()
+
 # UI Component
 def st_header():
     """
@@ -18,4 +26,3 @@ def st_header():
     """
     st.header("RAGxplorer 🗺️", divider='grey')
     st.markdown("#### Visualise which chunks are most relevant to your query.")
-

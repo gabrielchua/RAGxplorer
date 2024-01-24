@@ -13,7 +13,8 @@ import streamlit as st
 import pandas as pd
 from utils.st import(
     st_header,
-    st_initilize_session_state_as_none
+    st_initilize_session_state_as_none,
+    st_reset_application
 )
 from utils.rag import (
     build_vector_database,
@@ -102,11 +103,15 @@ else:
 
     # View 3
     elif st.session_state["document_projections_done"]:
-        col3, col4 = st.columns([0.8, 0.2])
+        col3, col4a, col4b = st.columns([0.8, 0.1, 0.1])
         query = col3.text_input("Enter your query")
-        col4.write("")
-        col4.write("")
-        search = col4.button("Search")
+        col4a.write("")
+        col4a.write("")
+        search = col4a.button("Search")
+        col4b.write("")
+        col4b.write("")
+        if col4b.button("Reset App ⚠️"):
+            st_reset_application()
 
         col5, _ ,col6 = st.columns([0.75, 0.05, 0.2])
         top_k = col6.number_input("Number of Chunks", value=5, min_value=1, max_value=10, step=1)
@@ -114,8 +119,6 @@ else:
                                   ["Naive", 
                                    "Query Expansion - Multiple Qns", 
                                    "Query Expansion - Hypothetical Ans"])
-        with col6.expander("Note"):
-            st.warning("Query Expansion is not yet implemented")
 
         df = prepare_projections_df()
 
@@ -174,13 +177,13 @@ else:
                                                             chroma_search,
                                                             top_k)
             st.session_state['retrieved_id'] = [int(index) for index in st.session_state['retrieved_id']]
-            df.loc[st.session_state['retrieved_id'], "category"] = "Retrived"
+            df.loc[st.session_state['retrieved_id'], "category"] = "Retrieved"
 
             df = pd.concat([df, df_query], axis = 0)
 
-            st.session_state["filtered_df"] = df[df['category'] == "Retrived"]
+            st.session_state["filtered_df"] = df[df['category'] == "Retrieved"]
 
-            st.markdown("### Retrived Chunk")
+            st.markdown("### Retrieved Chunks")
             st.dataframe(st.session_state["filtered_df"]['document'])
 
         with col5:
