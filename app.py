@@ -13,7 +13,7 @@ import streamlit as st
 import pandas as pd
 from utils.st import(
     st_header,
-    st_initilize_session_state_as_none,
+    st_initialize_session_state_as_none,
     st_reset_application
 )
 from utils.rag import (
@@ -49,7 +49,7 @@ st.set_page_config(
 )
 
 # Session State
-st_initilize_session_state_as_none(["document", "chroma", "filtered_df", "document_projections"])
+st_initialize_session_state_as_none(["document", "chroma", "filtered_df", "document_projections"])
 
 if "document_projections_done" not in st.session_state.keys():
     st.session_state["document_projections_done"] = False
@@ -124,7 +124,7 @@ else:
 
         if search:
 
-            st.session_state['query_projections'] = get_projections(get_embedding(query), st.session_state["umap_transform"])
+            st.session_state['query_projections'] = get_projections(get_embedding(model=st.session_state["embedding_model"], text=query), st.session_state["umap_transform"])
 
             df_query = pd.DataFrame({"x": [st.session_state['query_projections'][0][0]],
                                     "y": [st.session_state['query_projections'][1][0]],
