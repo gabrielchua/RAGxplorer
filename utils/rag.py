@@ -43,6 +43,18 @@ def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedd
         file: The PDF file to process.
         chunk_size: The number of tokens in one chunk.
         chunk_overlap: The number of tokens shared between consecutive chunks.
+        embedding_model: The model to use for text embedding.
+    
+    Returns:
+        A Chroma collection object containing the embedded chunks.
+    """
+    """
+    Builds a vector database from a PDF file by splitting the text into chunks and embedding them.
+    
+    Args:
+        file: The PDF file to process.
+        chunk_size: The number of tokens in one chunk.
+        chunk_overlap: The number of tokens shared between consecutive chunks.
     
     Returns:
         A Chroma collection object containing the embedded chunks.
