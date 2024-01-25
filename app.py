@@ -34,6 +34,20 @@ from utils.query_expansion import (
     generate_hypothetical_ans
 )
 from utils.constants import (
+    get_docs,
+    get_doc_embeddings
+    )
+from utils.projections import (
+    set_up_umap,
+    get_projections,
+    prepare_projections_df,
+    plot_embeddings
+    )  
+from utils.query_expansion import (
+    generate_sub_qn,
+    generate_hypothetical_ans
+)
+from utils.constants import (
     PLOT_SIZE,
     ABOUT_THIS_APP,
     CHUNK_EXPLAINER,
@@ -57,10 +71,10 @@ if "document_projections_done" not in st.session_state.keys():
     st.session_state["document_projections_done"] = False
 
 # Header
-st_header()
 
 # Set-UP Page
 if st.session_state['document'] is None:
+st_header()
 
     col1, _ ,col2 = st.columns([0.6, 0.1, 0.3])
 
