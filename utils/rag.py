@@ -71,7 +71,6 @@ def _split_text_into_chunks(pdf_texts: List[str], chunk_size: int, chunk_overlap
         chunk_overlap=chunk_overlap
     )
     return character_splitter.split_text('\n\n'.join(pdf_texts))
-
 def _split_chunks_into_tokens(character_split_texts: List[str]) -> List[str]:
     """
     Splits text chunks into smaller chunks based on token count.
