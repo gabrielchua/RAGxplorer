@@ -136,7 +136,7 @@ else:
             if strategy == "Query Expansion - Multiple Qns":
                 st.session_state['query_expansion_multi'] = generate_sub_qn(query)
                 NUM_MULTI = len(st.session_state['query_expansion_multi'])
-                st.session_state['query_projections_multi_qn'] = [get_projections(get_embedding(sub_qn), st.session_state["umap_transform"]) for sub_qn in st.session_state['query_expansion_multi']]
+                st.session_state['query_projections_multi_qn'] = [get_projections(get_embedding(model=st.session_state["embedding_model"], text=sub_qn), st.session_state["umap_transform"]) for sub_qn in st.session_state['query_expansion_multi']]
 
 
                 df_query_multi = pd.DataFrame({"x": [projection[0][0] for projection in st.session_state['query_projections_multi_qn']],
@@ -155,7 +155,7 @@ else:
 
             elif strategy == "Query Expansion - Hypothetical Ans":
                 st.session_state['query_expansion_hypo'] = generate_hypothetical_ans(query)
-                st.session_state['query_projections_hypo'] = get_projections(get_embedding(st.session_state['query_expansion_hypo']), st.session_state["umap_transform"])
+                st.session_state['query_projections_hypo'] = get_projections(get_embedding(model=st.session_state["embedding_model"], text=st.session_state['query_expansion_hypo']), st.session_state["umap_transform"])
 
                 df_query_hypo = pd.DataFrame({"x": [st.session_state['query_projections_hypo'][0][0]],
                         "y": [st.session_state['query_projections_hypo'][1][0]],
