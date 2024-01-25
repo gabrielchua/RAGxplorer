@@ -12,7 +12,6 @@ Functions:
     get_docs(chroma_collection)
     get_embedding(text)
     _load_pdf(file)
-    _generate_random_string(length)
     _split_text_into_chunks(pdf_texts, chunk_size, chunk_overlap)
     _split_chunks_into_tokens(character_split_texts)
     _create_and_populate_chroma_collection(token_split_texts, embedding_model)
