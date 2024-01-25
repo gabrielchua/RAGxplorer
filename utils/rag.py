@@ -190,6 +190,16 @@ def get_docs(chroma_collection: chromadb.Collection) -> list[str] | None:
 def get_embedding(model:str, text: str) -> list[Sequence[float] | Sequence[int]]:
     """
     Generates an embedding for the given text using a sentence transformer model.
+
+    Args:
+        model: The model to use for text embedding.
+        text: The text to embed.
+    
+    Returns:
+        An embedding of the text.
+    """
+    """
+    Generates an embedding for the given text using a sentence transformer model.
     
     Args:
         text: The text to embed.
