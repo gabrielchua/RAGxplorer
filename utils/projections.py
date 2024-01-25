@@ -122,6 +122,7 @@ def plot_embeddings(df: pd.DataFrame) -> DeltaGenerator:
 
     fig.update_layout(
         height=500,
+        width=500,
         legend=dict(
             y=100,
             x=0.5,
@@ -131,4 +132,4 @@ def plot_embeddings(df: pd.DataFrame) -> DeltaGenerator:
         )
     )
                 
-    return st.plotly_chart(fig, use_container_width=True)
+    return st.plotly_chart(fig)

@@ -44,5 +44,4 @@ def st_header() -> None:
     This function uses Streamlit's built-in functions to display a header and a markdown text on the app's page.
     It's a simple way to add a consistent header to your Streamlit application.
     """
-    st.header("RAGxplorer 🗺️", divider='grey')
-    st.markdown("#### Visualize which chunks are most relevant to your query.")
+    st.header("RAGxplorer 🦙🦺", divider='grey')

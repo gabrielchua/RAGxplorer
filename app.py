@@ -38,7 +38,9 @@ from utils.constants import (
     ABOUT_THIS_APP,
     CHUNK_EXPLAINER,
     BUILD_VDB_LOADING_MSG,
-    VISUALISE_LOADING_MSG
+    VISUALISE_LOADING_MSG,
+    EMBEDDING_MODEL_LIST,
+    LLM_LIST
 )
 
 st.set_page_config(
@@ -54,37 +56,36 @@ st_initialize_session_state_as_none(["document", "chroma", "filtered_df", "docum
 if "document_projections_done" not in st.session_state.keys():
     st.session_state["document_projections_done"] = False
 
-# UI
+# Header
 st_header()
 
-# View 1
+# Set-UP Page
 if st.session_state['document'] is None:
-    col1, col2 = st.columns(2)
-    col1.markdown("### 1. Upload your PDF 📄")
-    col1.markdown("For this demo, a 10-20 page PDF is recommended.")
-    uploaded_file = col1.file_uploader("Upload your PDF", label_visibility="collapsed", type='pdf')
-    col1.markdown("### 2. Configurations (Optional) 🔧")
-    st.session_state["chunk_size"] = col1.number_input("Chunk Size", value = 1000, step = 50)
-    st.session_state["chunk_overlap"] = col1.number_input("Chunk Overlap", step = 50)
-    st.session_state["embedding_model"] = col1.selectbox("Select your embedding model",
-                                  ["all-MiniLM-L6-v2",
-                                   "text-embedding-ada-002", 
-                                  # "gte-large"
-                                   ])
 
-    col1.markdown("### 3. Build VectorDB ⚡️")
+    col1, _ ,col2 = st.columns([0.6, 0.1, 0.3])
+
+    col1.markdown("### 1. Upload your PDF 📄 \n For this demo, a 10-20 page PDF is recommended")
+    uploaded_file = col1.file_uploader("Upload your PDF", label_visibility="collapsed", type='pdf')
+
+    col1.markdown("### 2. Configure your RAG (Optional) 🔧")
+    col1a, col1b, col1c = col1.columns(3)
+    st.session_state["chunk_size"] = col1a.number_input("Chunk Size", value = 1000, step = 50)
+    st.session_state["chunk_overlap"] = col1b.number_input("Chunk Overlap", step = 50)
+    st.session_state["embedding_model"] = col1a.selectbox("Select your embedding model", EMBEDDING_MODEL_LIST)
+    st.session_state["llm_model"] = col1b.selectbox("Select your LLM (Coming Soon)", LLM_LIST)
+
+    col1.markdown("### 3. Build the VectorDB ⚡️")
     if col1.button("Build"):
         st.session_state['document'] = uploaded_file
         st.rerun()
 
     with col2.expander("**About this application**"):
         st.success(ABOUT_THIS_APP)
-
-    with col2.expander("**EXPLAINER:** What is chunk size/overlap?"):
+    with col2.expander("**EXPLAINER:** What does chunk size/overlap mean?"):
         st.info(CHUNK_EXPLAINER)
 
 else:
-    # View 2
+    # Loading Page
     if st.session_state["chroma"] is None or st.session_state["document_projections_done"] == False:
         with st.spinner(BUILD_VDB_LOADING_MSG):
             st.session_state["chroma"] = build_vector_database(st.session_state['document'],
@@ -95,32 +96,30 @@ else:
             st.session_state["document_embeddings"] = get_doc_embeddings(st.session_state["chroma"])
             st.session_state["docs"] = get_docs(st.session_state["chroma"])
             st.session_state["umap_transform"] = set_up_umap(st.session_state["document_embeddings"])
-            st.session_state["document_projections"] = get_projections(st.session_state["document_embeddings"],
-                                                                       st.session_state["umap_transform"])
-            
+            st.session_state["document_projections"] = get_projections(st.session_state["document_embeddings"], st.session_state["umap_transform"])
             st.session_state["document_projections_done"] = True
             st.rerun()
 
-    # View 3
+    # Explorer Page
     elif st.session_state["document_projections_done"]:
-        col3, col4a, col4b = st.columns([0.8, 0.1, 0.1])
-        query = col3.text_input("Enter your query")
-        col4a.write("")
-        col4a.write("")
-        search = col4a.button("Search")
-        col4b.write("")
-        col4b.write("")
-        if col4b.button("Reset App ⚠️"):
-            st_reset_application()
+        col3, _, col4= st.columns([0.4, 0.1, 0.5])
 
-        col5, _ ,col6 = st.columns([0.75, 0.05, 0.2])
-        top_k = col6.number_input("Number of Chunks", value=5, min_value=1, max_value=10, step=1)
-        strategy = col6.selectbox("Select your retrival strategy",
+        query = col3.text_input("Enter your query")
+
+        strategy = col3.selectbox("Retrival strategy",
                                   ["Naive", 
                                    "Query Expansion - Multiple Qns", 
                                    "Query Expansion - Hypothetical Ans"])
 
+        top_k = col3.number_input("Top K", value=5, min_value=1, max_value=10, step=1)
+
         df = prepare_projections_df()
+
+        search = col3.button("Search ⚡")
+        if col3.button("Reset ⚠️"):
+            st_reset_application()
+
+
 
         if search:
 
@@ -186,5 +185,5 @@ else:
             st.markdown("### Retrieved Chunks")
             st.dataframe(st.session_state["filtered_df"]['document'])
 
-        with col5:
+        with col4:
             plot_embeddings(df)
