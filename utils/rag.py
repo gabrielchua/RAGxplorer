@@ -175,6 +175,14 @@ def get_docs(chroma_collection: chromadb.Collection) -> list[str] | None:
     
     Returns:
         A list of documents.
+    
+    Retrieves the documents from the Chroma collection.
+    
+    Args:
+        chroma_collection: The Chroma collection to retrieve documents from.
+    
+    Returns:
+        A list of documents.
     """
     documents = chroma_collection.get(include=['documents'])['documents']
     return documents
