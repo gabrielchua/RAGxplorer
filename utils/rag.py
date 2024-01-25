@@ -155,8 +155,7 @@ def query_chroma(chroma_collection: chromadb.Collection, query: str, top_k: int)
     return retrieved_id
 
 def get_doc_embeddings(chroma_collection: chromadb.Collection) -> list[Sequence[float] | Sequence[int]] | None:
-    """
-    Retrieves the document embeddings from the Chroma collection.
+    """Retrieves the document embeddings from the Chroma collection.
     
     Args:
         chroma_collection: The Chroma collection to retrieve embeddings from.
