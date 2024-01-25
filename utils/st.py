@@ -33,6 +33,12 @@ def st_reset_application() -> None:
     This function sets certain keys in the session state to their initial values and triggers a rerun of the app.
     It is useful for providing a reset mechanism within the application.
     """
+    """
+    Resets specific elements of the Streamlit application's session state and reruns the app.
+
+    This function sets certain keys in the session state to their initial values and triggers a rerun of the app.
+    It is useful for providing a reset mechanism within the application.
+    """
     st.session_state['document'] = None
     st.session_state["document_projections_done"] = False
     st.experimental_rerun()  # Note: 'st.rerun()' is deprecated in favor of 'st.experimental_rerun()'
