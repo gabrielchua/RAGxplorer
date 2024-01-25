@@ -93,6 +93,15 @@ def _split_chunks_into_tokens(character_split_texts: List[str]) -> List[str]:
     Returns:
         A list of text chunks split by token count.
     """
+    """
+    Splits text chunks into smaller chunks based on token count.
+    
+    Args:
+        character_split_texts: List of text chunks split by character count.
+    
+    Returns:
+        A list of text chunks split by token count.
+    """
     token_splitter = SentenceTransformersTokenTextSplitter(chunk_overlap=0, tokens_per_chunk=256)
     return [text for chunk in character_split_texts for text in token_splitter.split_text(chunk)]
 
