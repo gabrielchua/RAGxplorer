@@ -19,7 +19,7 @@ from langchain.text_splitter import (
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
-def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedding_model: str) -> chromadb.Collection:
+def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedding_model: Any) -> chromadb.Collection:
     """
     Builds a vector database from a PDF file by splitting the text into chunks and embedding them.
     
