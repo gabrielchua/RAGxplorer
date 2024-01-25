@@ -75,7 +75,7 @@ def _split_text_into_chunks(pdf_texts: List[str], chunk_size: int, chunk_overlap
         chunk_overlap: The number of tokens shared between consecutive chunks.
     
     Returns:
-        A list of text chunks.
+        A list of text chunks split by character count.
     """
     character_splitter = RecursiveCharacterTextSplitter(
         separators=["\n\n", "\n", ". ", " ", ""],
