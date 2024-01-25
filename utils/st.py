@@ -40,8 +40,17 @@ def st_reset_application() -> None:
 def st_header() -> None:
     """
     Creates a header UI component for the Streamlit application.
-
+    
     This function uses Streamlit's built-in functions to display a header and a markdown text on the app's page.
     It's a simple way to add a consistent header to your Streamlit application.
     """
+    
+    def st_header() -> None:
+        """
+        Creates a header UI component for the Streamlit application.
+    
+        This function uses Streamlit's built-in functions to display a header and a markdown text on the app's page.
+        It's a simple way to add a consistent header to your Streamlit application.
+        """
+        st.header("RAGxplorer 🦙🦺", divider='grey')
     st.header("RAGxplorer 🦙🦺", divider='grey')
