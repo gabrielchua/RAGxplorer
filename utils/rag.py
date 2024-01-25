@@ -108,7 +108,18 @@ def _create_and_populate_chroma_collection(token_split_texts: List[str], embeddi
     chroma_collection.add(ids=ids, documents=token_split_texts)
     return chroma_collection
 
-def query_chroma(chroma_collection: chromadb.Collection, query: str, top_k: int) -> List[str]:
+def query_chroma(chroma_collection: chromadb.Collection, query: str, top_k: int) -> List[int]:
+    """
+    Queries the Chroma collection for the top_k most relevant chunks to the input query.
+    
+    Args:
+        chroma_collection (chromadb.Collection): The Chroma collection to query.
+        query (str): The input query string.
+        top_k (int): The number of top results to retrieve.
+    
+    Returns:
+        A list of retrieved chunk IDs.
+    """
     """
     Queries the Chroma collection for the top_k most relevant chunks to the input query.
     
