@@ -13,6 +13,10 @@ VISUALISATION_SETTINGS = {
             'Hypothetical Ans': {'color': 'purple', 'opacity': 1, 'symbol': 'star', 'size': 15},
         }
 
+# Embedding Models
+EMBEDDING_MODEL_LIST = ["all-MiniLM-L6-v2", "text-embedding-ada-002"]
+LLM_LIST = ["gpt-4-1106-preview"]
+
 # LLM
 GPT_MODEL = "gpt-4-1106-preview"
 
