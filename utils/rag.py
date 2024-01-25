@@ -121,7 +121,7 @@ def query_chroma(chroma_collection: chromadb.Collection, query: str, top_k: int)
         A list of retrieved chunk IDs.
     """
     results = chroma_collection.query(query_texts=[query], n_results=top_k, include=['documents', 'embeddings'])
-    retrieved_id = results['ids'][0]
+    retrieved_id = [int(index) for index in results['ids'][0]]
     return retrieved_id
 
 def get_doc_embeddings(chroma_collection: chromadb.Collection) -> list[Sequence[float] | Sequence[int]] | None:
