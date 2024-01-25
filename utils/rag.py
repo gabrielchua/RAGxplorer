@@ -1,47 +1,43 @@
 """
-Module for RAG
+rag.py
+
+This module contains functions for RAG (Retrieval Augmented Generation) - namely building and querying a 
+vector database using ChromaDB, utilizing various embedding models. It includes utilities for loading 
+PDF documents and chunking it.
+
+Functions:
+    build_vector_database(file, chunk_size, chunk_overlap, embedding_model)
+    query_chroma(chroma_collection, query, top_k)
+    get_doc_embeddings(chroma_collection)
+    get_docs(chroma_collection)
+    get_embedding(text)
+    _load_pdf(file)
+    _generate_random_string(length)
+    _split_text_into_chunks(pdf_texts, chunk_size, chunk_overlap)
+    _split_chunks_into_tokens(character_split_texts)
+    _create_and_populate_chroma_collection(token_split_texts, embedding_model)
 """
 import random
 import string
+from typing import (
+    List,
+    Any,
+    Sequence
+    )
+
 import chromadb
 import numpy as np
 import streamlit as st
 from openai import OpenAI
-
 from PyPDF2 import PdfReader
 from langchain.text_splitter import (
     RecursiveCharacterTextSplitter,
     SentenceTransformersTokenTextSplitter
 )
-import chromadb.utils.embedding_functions as embedding_functions
-from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
-from typing import (
-    List, 
-    Any,
-    TypeVar,
-    )
-from typing_extensions import Protocol
-
-from chromadb import Documents, Embeddings
-
-Embeddable = Documents
-D = TypeVar("D", bound=Embeddable, contravariant=True)
-
-class AnyScaleEmbeddings(Protocol[D]):
-    def __call__(self, input: D) -> Embeddings:
-
-        any_scale_client = OpenAI(
-            base_url = "https://api.endpoints.anyscale.com/v1",
-            api_key = st.secrets["ANYSCALE_API_KEY"]
-        )
-
-        embedding = any_scale_client.embeddings.create(
-            model="thenlper/gte-large",
-            input=Documents,
-        )
-
-        return embedding.model_dump()
-
+from chromadb.utils.embedding_functions import (
+    SentenceTransformerEmbeddingFunction,
+    OpenAIEmbeddingFunction
+)
 
 def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedding_model: str) -> chromadb.Collection:
     """
@@ -108,13 +104,11 @@ def _create_and_populate_chroma_collection(token_split_texts: List[str], embeddi
     if embedding_model == "all-MiniLM-L6-v2":
         chroma_collection = chroma_client.create_collection(document_name, embedding_function=SentenceTransformerEmbeddingFunction())
     elif embedding_model == "text-embedding-ada-002":
-        openai_ef = embedding_functions.OpenAIEmbeddingFunction(
+        openai_ef = OpenAIEmbeddingFunction(
                 api_key=st.secrets['OPENAI_API_KEY'],
                 model_name="text-embedding-ada-002"
             )
         chroma_collection = chroma_client.create_collection(document_name, embedding_function=openai_ef)
-    elif embedding_model == "gte-large":
-        chroma_collection = chroma_client.create_collection(document_name, embedding_function=AnyScaleEmbeddings)
     ids = [str(i) for i in range(len(token_split_texts))]
     chroma_collection.add(ids=ids, documents=token_split_texts)
     return chroma_collection
@@ -135,7 +129,7 @@ def query_chroma(chroma_collection: chromadb.Collection, query: str, top_k: int)
     retrieved_id = results['ids'][0]
     return retrieved_id
 
-def get_doc_embeddings(chroma_collection: chromadb.Collection) -> np.ndarray:
+def get_doc_embeddings(chroma_collection: chromadb.Collection) -> list[Sequence[float] | Sequence[int]] | None:
     """
     Retrieves the document embeddings from the Chroma collection.
     
@@ -148,7 +142,7 @@ def get_doc_embeddings(chroma_collection: chromadb.Collection) -> np.ndarray:
     embeddings = chroma_collection.get(include=['embeddings'])['embeddings']
     return embeddings
 
-def get_docs(chroma_collection: chromadb.Collection) -> List[str]:
+def get_docs(chroma_collection: chromadb.Collection) -> list[str] | None:
     """
     Retrieves the documents from the Chroma collection.
     
@@ -161,7 +155,7 @@ def get_docs(chroma_collection: chromadb.Collection) -> List[str]:
     documents = chroma_collection.get(include=['documents'])['documents']
     return documents
 
-def get_embedding(text: str) -> np.ndarray:
+def get_embedding(model:str, text: str) -> list[Sequence[float] | Sequence[int]]:
     """
     Generates an embedding for the given text using a sentence transformer model.
     
@@ -171,7 +165,13 @@ def get_embedding(text: str) -> np.ndarray:
     Returns:
         An embedding of the text.
     """
-    return SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2")([text])
+    if model == "text-embedding-ada-002":
+        return OpenAIEmbeddingFunction(
+                api_key=st.secrets['OPENAI_API_KEY'],
+                model_name="text-embedding-ada-002"
+            )([text])
+    else:
+        return SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2")([text])
 
 def _load_pdf(file: Any) -> List[str]:
     """
