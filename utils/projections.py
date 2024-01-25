@@ -97,6 +97,15 @@ def plot_embeddings(df: pd.DataFrame) -> DeltaGenerator:
         df (pd.DataFrame): DataFrame containing x and y coordinates, and additional data for plotting.
 
     Returns:
+        DeltaGenerator: The function creates a plot in Streamlit and does not return any value.
+    """
+    """
+    Plots the embeddings in a two-dimensional space using Plotly.
+
+    Args:
+        df (pd.DataFrame): DataFrame containing x and y coordinates, and additional data for plotting.
+
+    Returns:
         None: The function creates a plot in Streamlit and does not return any value.
     """
     fig = go.Figure()
