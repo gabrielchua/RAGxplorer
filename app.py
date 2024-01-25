@@ -16,23 +16,7 @@ from utils.st import(
     st_initialize_session_state_as_none,
     st_reset_application
 )
-from utils.rag import (
-    build_vector_database,
-    query_chroma,
-    get_embedding,
-    get_docs,
-    get_doc_embeddings
-    )
-from utils.projections import (
-    set_up_umap,
-    get_projections,
-    prepare_projections_df,
-    plot_embeddings
-    )  
-from utils.query_expansion import (
-    generate_sub_qn,
-    generate_hypothetical_ans
-)
+from utils import rag, projections, query_expansion
 from utils.constants import (
     PLOT_SIZE,
     ABOUT_THIS_APP,
@@ -51,7 +35,7 @@ st.set_page_config(
 )
 
 # Session State
-st_initialize_session_state_as_none(["document", "chroma", "filtered_df", "document_projections"])
+test_app.test_app.st_initialize_session_state_as_none(["document", "chroma", "filtered_df", "document_projections"])
 
 if "document_projections_done" not in st.session_state.keys():
     st.session_state["document_projections_done"] = False
