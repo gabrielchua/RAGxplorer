@@ -17,10 +17,10 @@ VISUALISATION_SETTINGS = {
 OPENAI_EMBEDDINGS = ["text-embedding-3-small", "text-embedding-3-large" , "text-embedding-ada-002"]
 OTHER_EMBEDDINGS = ["all-MiniLM-L6-v2"]
 EMBEDDING_MODEL_LIST = OTHER_EMBEDDINGS + OPENAI_EMBEDDINGS
-LLM_LIST = ["gpt-3.5-turbo-0125", "gpt-4-1106-preview", "gpt-4-0125-preview"]
+LLM_LIST = ["gpt-4-0125-preview", "gpt-4-1106-preview"]
 
 # LLM
-GPT_MODEL = "gpt-4-1106-preview"
+# GPT_MODEL = "gpt-4-1106-preview"
 
 MULTIPLE_QNS_SYS_MSG = "Given a question, your task is to generate 3 to 5 simple sub-questions related to the original questions. "\
                         "These sub-questions are to be short. Format your reply in json with numbered keys."\
