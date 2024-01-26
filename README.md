@@ -22,7 +22,7 @@ RAGxplorer is an interactive streamlit tool to support the building of Retrieval
 
 - **Document Upload**: Users can upload PDF documents.
 - **Chunk Configuration**: Options to configure the chunk size and overlap
-- **Choice of embedding model**: `all-MiniLM-L6-v2` or `text-embedding-ada-002`
+- **Choice of embedding model**: `all-MiniLM-L6-v2`, `text-embedding-3-small`, `text-embedding-3-large`, `text-embedding-ada-002`
 - **Vector Database Creation**: Builds a vector database using Chroma
 - **Query Expansion**: Generates sub-questions and hypothetical answers to enhance the retrieval process.
 - **Interactive Visualization**: Utilizes Plotly to visualise the chunks.
