@@ -97,7 +97,7 @@ class RAGxplorer(BaseModel):
         Raises:
             RuntimeError: If the document has not been loaded before visualization.
         """
-        if self.client is None or self.base_df is None:
+        if self._client is None or self._base_df is None:
             raise RuntimeError("Please load the document first.")
 
         self._original_query = query

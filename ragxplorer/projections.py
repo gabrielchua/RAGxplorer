@@ -8,6 +8,7 @@ import umap
 import streamlit as st 
 import pandas as pd
 import plotly.graph_objs as go
+from tqdm import tqdm
 
 from .constants import (
     VISUALISATION_SETTINGS,
@@ -55,7 +56,10 @@ def _project_embeddings(embeddings: np.ndarray, umap_transform: umap.UMAP) -> np
         An array of projected embeddings.
     """
     umap_embeddings = np.empty((len(embeddings), 2))
-    for i, embedding in enumerate(embeddings):
+    for i, embedding in tqdm(enumerate(embeddings)):
+        if len(embedding)  == 1:
+            embedding = np.array(embedding)
+            embedding = embedding.reshape(1, -1)
         umap_embeddings[i] = umap_transform.transform([embedding])
     return umap_embeddings
 
