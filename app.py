@@ -73,7 +73,7 @@ if st.session_state['document'] is None:
     st.session_state["chunk_size"] = col1a.number_input("Chunk Size", value = 1000, step = 50)
     st.session_state["chunk_overlap"] = col1b.number_input("Chunk Overlap", step = 50)
     st.session_state["embedding_model"] = col1a.selectbox("Select your embedding model", EMBEDDING_MODEL_LIST)
-    st.session_state["llm_model"] = col1b.selectbox("Select your LLM (Coming Soon)", LLM_LIST)
+    st.session_state["llm_model"] = col1b.selectbox("Select your LLM", LLM_LIST)
 
     col1.markdown("### 3. Build the VectorDB ⚡️")
     if col1.button("Build"):
@@ -106,7 +106,7 @@ else:
     elif st.session_state["document_projections_done"]:
         col3, _, col4= st.columns([0.4, 0.1, 0.5])
 
-        query = col3.text_input("Enter your query")
+        query = col3.text_area("Enter your query")
 
         strategy = col3.selectbox("Retrival strategy",
                                   ["Naive", 
@@ -117,8 +117,10 @@ else:
 
         df = prepare_projections_df()
 
-        search = col3.button("Search ⚡")
-        if col3.button("Reset ⚠️"):
+        col3a, col3b, _ = col3.columns([0.3, 0.5, 0.4])
+
+        search = col3a.button("Search ⚡")
+        if col3b.button("Reset Application ⚠️"):
             st_reset_application()
 
 
@@ -135,7 +137,7 @@ else:
                                     })
 
             if strategy == "Query Expansion - Multiple Qns":
-                st.session_state['query_expansion_multi'] = generate_sub_qn(query)
+                st.session_state['query_expansion_multi'] = generate_sub_qn(st.session_state["llm_model"], query)
                 NUM_MULTI = len(st.session_state['query_expansion_multi'])
                 st.session_state['query_projections_multi_qn'] = [get_projections(get_embedding(model=st.session_state["embedding_model"], text=sub_qn), st.session_state["umap_transform"]) for sub_qn in st.session_state['query_expansion_multi']]
 
@@ -155,7 +157,7 @@ else:
 
 
             elif strategy == "Query Expansion - Hypothetical Ans":
-                st.session_state['query_expansion_hypo'] = generate_hypothetical_ans(query)
+                st.session_state['query_expansion_hypo'] = generate_hypothetical_ans(st.session_state["llm_model"], query)
                 st.session_state['query_projections_hypo'] = get_projections(get_embedding(model=st.session_state["embedding_model"], text=st.session_state['query_expansion_hypo']), st.session_state["umap_transform"])
 
                 df_query_hypo = pd.DataFrame({"x": [st.session_state['query_projections_hypo'][0][0]],

@@ -14,14 +14,13 @@ import streamlit as st
 from openai import OpenAI
 from typing import Union
 from utils.constants import (
-    GPT_MODEL,
     MULTIPLE_QNS_SYS_MSG,
     HYDE_SYS_MSG
 )
 
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
-def generate_sub_qn(query: str) -> str | list[str]:
+def generate_sub_qn(model, query: str) -> str | list[str]:
     """
     Generates a list of sub-questions based on the provided query.
 
@@ -31,10 +30,10 @@ def generate_sub_qn(query: str) -> str | list[str]:
     Returns:
         List[str]: A list of sub-questions generated from the query.
     """
-    sub_qns = _chat_completion(MULTIPLE_QNS_SYS_MSG, query, 'json_object')
+    sub_qns = _chat_completion(model, MULTIPLE_QNS_SYS_MSG, query, 'json_object')
     return sub_qns
 
-def generate_hypothetical_ans(query: str) -> str | list[str]:
+def generate_hypothetical_ans(model, query: str) -> str | list[str]:
     """
     Generates a hypothetical answer as a placeholder based on the provided query.
 
@@ -44,10 +43,10 @@ def generate_hypothetical_ans(query: str) -> str | list[str]:
     Returns:
         str: A hypothetical answer generated from the query.
     """
-    hypothetical_ans = _chat_completion(HYDE_SYS_MSG, query, 'text')
+    hypothetical_ans = _chat_completion(model, HYDE_SYS_MSG, query, 'text')
     return hypothetical_ans
 
-def _chat_completion(sys_msg: str, prompt: str, response_format: str) -> Union[str, list[str]]:
+def _chat_completion(model, sys_msg: str, prompt: str, response_format: str) -> Union[str, list[str]]:
     """
     Sends a prompt to the OpenAI API and retrieves the completion.
 
@@ -60,7 +59,7 @@ def _chat_completion(sys_msg: str, prompt: str, response_format: str) -> Union[s
         Union[str, List[str]]: The AI's response, either as a string or a list of strings.
     """
     response = client.chat.completions.create(
-        model=GPT_MODEL,
+        model=model,
         messages=[{'role': 'system', 'content': sys_msg}, 
                   {'role': 'user', 'content': prompt}],
         temperature=0,

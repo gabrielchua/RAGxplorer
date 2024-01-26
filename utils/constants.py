@@ -14,8 +14,10 @@ VISUALISATION_SETTINGS = {
         }
 
 # Embedding Models
-EMBEDDING_MODEL_LIST = ["all-MiniLM-L6-v2", "text-embedding-ada-002"]
-LLM_LIST = ["gpt-4-1106-preview"]
+OPENAI_EMBEDDINGS = ["text-embedding-3-small", "text-embedding-3-large" , "text-embedding-ada-002"]
+OTHER_EMBEDDINGS = ["all-MiniLM-L6-v2"]
+EMBEDDING_MODEL_LIST = OTHER_EMBEDDINGS + OPENAI_EMBEDDINGS
+LLM_LIST = ["gpt-3.5-turbo-0125", "gpt-4-1106-preview", "gpt-4-0125-preview"]
 
 # LLM
 GPT_MODEL = "gpt-4-1106-preview"

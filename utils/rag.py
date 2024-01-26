@@ -35,6 +35,8 @@ from chromadb.utils.embedding_functions import (
     OpenAIEmbeddingFunction
 )
 
+from .constants import OPENAI_EMBEDDINGS
+
 def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedding_model: str) -> chromadb.Collection:
     """
     Builds a vector database from a PDF file by splitting the text into chunks and embedding them.
@@ -99,10 +101,10 @@ def _create_and_populate_chroma_collection(token_split_texts: List[str], embeddi
     document_name = uuid.uuid4().hex
     if embedding_model == "all-MiniLM-L6-v2":
         chroma_collection = chroma_client.create_collection(document_name, embedding_function=SentenceTransformerEmbeddingFunction())
-    elif embedding_model == "text-embedding-ada-002":
+    elif embedding_model in OPENAI_EMBEDDINGS:
         openai_ef = OpenAIEmbeddingFunction(
                 api_key=st.secrets['OPENAI_API_KEY'],
-                model_name="text-embedding-ada-002")
+                model_name=embedding_model)
         chroma_collection = chroma_client.create_collection(document_name, embedding_function=openai_ef)
     ids = [str(i) for i in range(len(token_split_texts))]
     chroma_collection.add(ids=ids, documents=token_split_texts)
@@ -175,10 +177,10 @@ def get_embedding(model:str, text: str) -> list[Sequence[float] | Sequence[int]]
     Returns:
         An embedding of the text.
     """
-    if model == "text-embedding-ada-002":
+    if model in OPENAI_EMBEDDINGS:
         return OpenAIEmbeddingFunction(
                 api_key=st.secrets['OPENAI_API_KEY'],
-                model_name="text-embedding-ada-002"
+                model_name=model
             )([text])
     else:
         return SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2")([text])
