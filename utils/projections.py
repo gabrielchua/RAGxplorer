@@ -79,7 +79,8 @@ def prepare_projections_df() -> pd.DataFrame:
     Returns:
         pd.DataFrame: A DataFrame containing projection coordinates, documents, and additional formatting details for plotting.
     """
-    df = pd.DataFrame({"x": st.session_state["document_projections"][0], 
+    df = pd.DataFrame({"id": st.session_state["ids"],
+                       "x": st.session_state["document_projections"][0], 
                        "y": st.session_state["document_projections"][1]})
     
     df = df.assign(document=st.session_state["docs"])

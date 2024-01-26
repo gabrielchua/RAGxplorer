@@ -21,6 +21,7 @@ from utils.rag import (
     query_chroma,
     get_embedding,
     get_docs,
+    get_doc_ids,
     get_doc_embeddings
     )
 from utils.projections import (
@@ -93,6 +94,7 @@ else:
                                                                st.session_state["chunk_overlap"],
                                                                st.session_state["embedding_model"])
         with st.spinner(VISUALISE_LOADING_MSG):
+            st.session_state["ids"] = get_doc_ids(st.session_state["chroma"])
             st.session_state["document_embeddings"] = get_doc_embeddings(st.session_state["chroma"])
             st.session_state["docs"] = get_docs(st.session_state["chroma"])
             st.session_state["umap_transform"] = set_up_umap(st.session_state["document_embeddings"])
@@ -175,8 +177,7 @@ else:
             st.session_state['retrieved_id'] = query_chroma(st.session_state["chroma"],
                                                             chroma_search,
                                                             top_k)
-            st.session_state['retrieved_id'] = [int(index) for index in st.session_state['retrieved_id']]
-            df.loc[st.session_state['retrieved_id'], "category"] = "Retrieved"
+            df.loc[df['id'].isin(st.session_state['retrieved_id']), "category"] = "Retrieved"
 
             df = pd.concat([df, df_query], axis = 0)
 
