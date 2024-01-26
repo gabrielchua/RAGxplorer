@@ -45,6 +45,18 @@ def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedd
         file: The PDF file to process.
         chunk_size: The number of tokens in one chunk.
         chunk_overlap: The number of tokens shared between consecutive chunks.
+        embedding_model: The model to use for text embedding.
+    
+    Returns:
+        A Chroma collection object containing the embedded chunks.
+    """
+    """
+    Builds a vector database from a PDF file by splitting the text into chunks and embedding them.
+    
+    Args:
+        file: The PDF file to process.
+        chunk_size: The number of tokens in one chunk.
+        chunk_overlap: The number of tokens shared between consecutive chunks.
     
     Returns:
         A Chroma collection object containing the embedded chunks.
@@ -65,7 +77,7 @@ def _split_text_into_chunks(pdf_texts: List[str], chunk_size: int, chunk_overlap
         chunk_overlap: The number of tokens shared between consecutive chunks.
     
     Returns:
-        A list of text chunks.
+        A list of text chunks split by character count.
     """
     character_splitter = RecursiveCharacterTextSplitter(
         separators=["\n\n", "\n", ". ", " ", ""],
@@ -73,8 +85,16 @@ def _split_text_into_chunks(pdf_texts: List[str], chunk_size: int, chunk_overlap
         chunk_overlap=chunk_overlap
     )
     return character_splitter.split_text('\n\n'.join(pdf_texts))
-
 def _split_chunks_into_tokens(character_split_texts: List[str]) -> List[str]:
+    """
+    Splits text chunks into smaller chunks based on token count.
+    
+    Args:
+        character_split_texts: List of text chunks split by character count.
+    
+    Returns:
+        A list of text chunks split by token count.
+    """
     """
     Splits text chunks into smaller chunks based on token count.
     
@@ -88,6 +108,16 @@ def _split_chunks_into_tokens(character_split_texts: List[str]) -> List[str]:
     return [text for chunk in character_split_texts for text in token_splitter.split_text(chunk)]
 
 def _create_and_populate_chroma_collection(token_split_texts: List[str], embedding_model) -> chromadb.Collection:
+    """
+    Creates a Chroma collection and populates it with the given text chunks.
+    
+    Args:
+        token_split_texts: List of text chunks split by token count.
+        embedding_model: The model to use for text embedding.
+    
+    Returns:
+        A Chroma collection object populated with the text chunks.
+    """
     """
     Creates a Chroma collection and populates it with the given text chunks.
     
@@ -153,8 +183,7 @@ def get_doc_ids(chroma_collection: chromadb.Collection) -> list[str] | None:
     return ids
 
 def get_doc_embeddings(chroma_collection: chromadb.Collection) -> list[Sequence[float] | Sequence[int]] | None:
-    """
-    Retrieves the document embeddings from the Chroma collection.
+    """Retrieves the document embeddings from the Chroma collection.
     
     Args:
         chroma_collection: The Chroma collection to retrieve embeddings from.
@@ -174,11 +203,29 @@ def get_docs(chroma_collection: chromadb.Collection) -> list[str] | None:
     
     Returns:
         A list of documents.
+    
+    Retrieves the documents from the Chroma collection.
+    
+    Args:
+        chroma_collection: The Chroma collection to retrieve documents from.
+    
+    Returns:
+        A list of documents.
     """
     documents = chroma_collection.get(include=['documents'])['documents']
     return documents
 
 def get_embedding(model:str, text: str) -> list[Sequence[float] | Sequence[int]]:
+    """
+    Generates an embedding for the given text using a sentence transformer model.
+
+    Args:
+        model: The model to use for text embedding.
+        text: The text to embed.
+    
+    Returns:
+        An embedding of the text.
+    """
     """
     Generates an embedding for the given text using a sentence transformer model.
     
