@@ -1,43 +1,24 @@
 """
 rag.py
 
-This module contains functions for RAG (Retrieval Augmented Generation) - namely building and querying a 
-vector database using ChromaDB, utilizing various embedding models. It includes utilities for loading 
-PDF documents and chunking it.
-
-Functions:
-    build_vector_database(file, chunk_size, chunk_overlap, embedding_model)
-    query_chroma(chroma_collection, query, top_k)
-    get_doc_embeddings(chroma_collection)
-    get_docs(chroma_collection)
-    _load_pdf(file)
-    _split_text_into_chunks(pdf_texts, chunk_size, chunk_overlap)
-    _split_chunks_into_tokens(character_split_texts)
-    _create_and_populate_chroma_collection(token_split_texts, embedding_model)
+This module provides functionalities for building and querying a vector database using ChromaDB.
+It handles operations like loading PDFs, chunking text, embedding, and retrieving documents based on queries.
 """
+
 import os
 import uuid
-from typing import (
-    List,
-    Any,
-    Sequence
-    )
-
+from typing import List, Any
 import chromadb
+import numpy as np
 from PyPDF2 import PdfReader
 from langchain.text_splitter import (
     RecursiveCharacterTextSplitter,
     SentenceTransformersTokenTextSplitter
 )
 
-from chromadb.utils.embedding_functions import (
-    SentenceTransformerEmbeddingFunction,
-    OpenAIEmbeddingFunction
-)
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
-from .constants import OPENAI_EMBEDDING_MODELS
-
-def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedding_model: str) -> chromadb.Collection:
+def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedding_model: Any) -> chromadb.Collection:
     """
     Builds a vector database from a PDF file by splitting the text into chunks and embedding them.
     
@@ -99,13 +80,7 @@ def _create_and_populate_chroma_collection(token_split_texts: List[str], embeddi
     """
     chroma_client = chromadb.Client()
     document_name = uuid.uuid4().hex
-    if embedding_model == "all-MiniLM-L6-v2":
-        chroma_collection = chroma_client.create_collection(document_name, embedding_function=SentenceTransformerEmbeddingFunction())
-    elif embedding_model in OPENAI_EMBEDDING_MODELS:
-        openai_ef = OpenAIEmbeddingFunction(
-                api_key=os.getenv('OPENAI_API_KEY'),
-                model_name=embedding_model)
-        chroma_collection = chroma_client.create_collection(document_name, embedding_function=openai_ef)
+    chroma_collection = chroma_client.create_collection(document_name, embedding_function=embedding_model)
     ids = [str(i) for i in range(len(token_split_texts))]
     chroma_collection.add(ids=ids, documents=token_split_texts)
     return chroma_collection
@@ -123,25 +98,10 @@ def query_chroma(chroma_collection: chromadb.Collection, query: str, top_k: int)
         A list of retrieved chunk IDs.
     """
     results = chroma_collection.query(query_texts=[query], n_results=top_k, include=['documents', 'embeddings'])
-    retrieved_ids = []
-    for ids in results['ids']:
-        retrieved_ids.extend(ids)
-    return retrieved_ids
+    retrieved_id = results['ids'][0]
+    return retrieved_id
 
-def get_doc_ids(chroma_collection: chromadb.Collection) -> list[str] | None:
-    """
-    Retrieves the document ids from the Chroma collection.
-    
-    Args:
-        chroma_collection: The Chroma collection to retrieve embeddings from.
-    
-    Returns:
-        An array of ids.
-    """
-    ids = chroma_collection.get(include=['embeddings'])['ids']
-    return ids
-
-def get_doc_embeddings(chroma_collection: chromadb.Collection) -> list[Sequence[float] | Sequence[int]] | None:
+def get_doc_embeddings(chroma_collection: chromadb.Collection) -> np.ndarray:
     """
     Retrieves the document embeddings from the Chroma collection.
     
@@ -154,7 +114,7 @@ def get_doc_embeddings(chroma_collection: chromadb.Collection) -> list[Sequence[
     embeddings = chroma_collection.get(include=['embeddings'])['embeddings']
     return embeddings
 
-def get_docs(chroma_collection: chromadb.Collection) -> list[str] | None:
+def get_docs(chroma_collection: chromadb.Collection) -> List[str]:
     """
     Retrieves the documents from the Chroma collection.
     
