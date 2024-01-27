@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='ragxplorer',
-    version='0.1.3',
+    version='0.1.5',
     author='Gabriel Chua',
     author_email='cyzgab@gmail.com',
     description='A open-source tool to to visualise your RAG documents 🔮.',
@@ -14,6 +14,7 @@ setup(
         'numpy',
         'pandas',
         'umap-learn',
+        'sentence-transformers',
         'plotly',
         'tqdm',
         'PyPDF2',

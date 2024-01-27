@@ -68,17 +68,14 @@ def _chat_completion(sys_msg: str, prompt: str, response_format: str) -> Union[s
     Raises:
         OpenAIError: If an error occurs in the OpenAI API call.
     """
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4-1106-preview",
-            messages=[{'role': 'system', 'content': sys_msg}, 
-                      {'role': 'user', 'content': prompt}],
-            temperature=0,
-            response_format={'type': response_format},
-            seed=0
-        )
-    except OpenAIError as e:
-        raise
+    response = client.chat.completions.create(
+        model="gpt-4-1106-preview",
+        messages=[{'role': 'system', 'content': sys_msg}, 
+                    {'role': 'user', 'content': prompt}],
+        temperature=0,
+        response_format={'type': response_format},
+        seed=0
+    )
 
     output = response.choices[0].message.content
 

@@ -10,12 +10,12 @@ Functions:
     query_chroma(chroma_collection, query, top_k)
     get_doc_embeddings(chroma_collection)
     get_docs(chroma_collection)
-    get_embedding(text)
     _load_pdf(file)
     _split_text_into_chunks(pdf_texts, chunk_size, chunk_overlap)
     _split_chunks_into_tokens(character_split_texts)
     _create_and_populate_chroma_collection(token_split_texts, embedding_model)
 """
+import os
 import uuid
 from typing import (
     List,
@@ -35,7 +35,7 @@ from chromadb.utils.embedding_functions import (
     OpenAIEmbeddingFunction
 )
 
-from .constants import OPENAI_EMBEDDINGS
+from .constants import OPENAI_EMBEDDING_MODELS
 
 def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedding_model: str) -> chromadb.Collection:
     """
@@ -101,9 +101,9 @@ def _create_and_populate_chroma_collection(token_split_texts: List[str], embeddi
     document_name = uuid.uuid4().hex
     if embedding_model == "all-MiniLM-L6-v2":
         chroma_collection = chroma_client.create_collection(document_name, embedding_function=SentenceTransformerEmbeddingFunction())
-    elif embedding_model in OPENAI_EMBEDDINGS:
+    elif embedding_model in OPENAI_EMBEDDING_MODELS:
         openai_ef = OpenAIEmbeddingFunction(
-                api_key=st.secrets['OPENAI_API_KEY'],
+                api_key=os.getenv('OPENAI_API_KEY'),
                 model_name=embedding_model)
         chroma_collection = chroma_client.create_collection(document_name, embedding_function=openai_ef)
     ids = [str(i) for i in range(len(token_split_texts))]
@@ -166,24 +166,6 @@ def get_docs(chroma_collection: chromadb.Collection) -> list[str] | None:
     """
     documents = chroma_collection.get(include=['documents'])['documents']
     return documents
-
-def get_embedding(model:str, text: str) -> list[Sequence[float] | Sequence[int]]:
-    """
-    Generates an embedding for the given text using a sentence transformer model.
-    
-    Args:
-        text: The text to embed.
-    
-    Returns:
-        An embedding of the text.
-    """
-    if model in OPENAI_EMBEDDINGS:
-        return OpenAIEmbeddingFunction(
-                api_key=st.secrets['OPENAI_API_KEY'],
-                model_name=model
-            )([text])
-    else:
-        return SentenceTransformerEmbeddingFunction(model_name="all-MiniLM-L6-v2")([text])
 
 def _load_pdf(file: Any) -> List[str]:
     """
