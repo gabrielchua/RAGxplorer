@@ -206,6 +206,17 @@ def _load_pdf(file: Any) -> List[str]:
         file: The PDF file to load.
     
     Returns:
+        A list of strings, each representing the text of a page."""
+    pdf = PdfReader(file)
+    pdf_texts = [p.extract_text().strip() for p in pdf.pages if p.extract_text()]
+    return pdf_texts
+    """
+    Loads and extracts text from a PDF file.
+    
+    Args:
+        file: The PDF file to load.
+    
+    Returns:
         A list of strings, each representing the text of a page.
     """
     pdf = PdfReader(file)
