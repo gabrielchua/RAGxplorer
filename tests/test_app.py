@@ -13,7 +13,7 @@ class TestApp(unittest.TestCase):
         result = new_logic_function(input_data)
         
         # Assert the expected result
-        self.assertEqual(result, ...)
+        self.assertEqual(result, ...) # Update the assertion for test case 2 # Update the assertion for test case 1
     
     def test_new_logic_function_case2(self):
         # Test case 2 for new_logic_function
