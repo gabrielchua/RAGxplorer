@@ -1,4 +1,6 @@
-"""
+"""\n\nOpen-source tool to visualise your RAG documents \\U0001F52E
+
+This module provides functionalities for building and querying a vector database using ChromaDB. It handles operations like loading PDFs, chunking text, embedding, and retrieving documents based on queries.
 rag.py
 
 This module provides functionalities for building and querying a vector database using ChromaDB.
