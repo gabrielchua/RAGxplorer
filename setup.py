@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='ragxplorer',
-    version='0.1.1',
+    version='0.1.2',
     author='Gabriel Chua',
     author_email='cyzgab@gmail.com',
     description='A open-source tool to to visualise your RAG documents 🔮.',
