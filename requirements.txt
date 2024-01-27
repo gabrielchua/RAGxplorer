@@ -16,6 +16,7 @@ click==8.1.7
 coloredlogs==15.0.1
 dataclasses-json==0.6.3
 Deprecated==1.2.14
+distro==1.9.0
 docutils==0.20.1
 fastapi==0.109.0
 filelock==3.13.1
@@ -26,7 +27,9 @@ google-auth==2.27.0
 googleapis-common-protos==1.62.0
 grpcio==1.60.0
 h11==0.14.0
+httpcore==1.0.2
 httptools==0.6.1
+httpx==0.26.0
 huggingface-hub==0.20.3
 humanfriendly==10.0
 idna==3.6
@@ -61,6 +64,7 @@ numba==0.58.1
 numpy==1.26.3
 oauthlib==3.2.2
 onnxruntime==1.16.3
+openai==1.10.0
 opentelemetry-api==1.22.0
 opentelemetry-exporter-otlp-proto-common==1.22.0
 opentelemetry-exporter-otlp-proto-grpc==1.22.0
