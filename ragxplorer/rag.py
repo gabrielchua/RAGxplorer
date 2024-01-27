@@ -175,7 +175,17 @@ def get_doc_embeddings(chroma_collection: chromadb.Collection) -> np.ndarray:
     embeddings = chroma_collection.get(include=['embeddings'])['embeddings']
     return embeddings
 
-def get_docs(chroma_collection: chromadb.Collection) -> List[str]:
+    """
+    Retrieves the documents from the Chroma collection.
+    
+    Args:
+        chroma_collection: The Chroma collection to retrieve documents from.
+    
+    Returns:
+        A list of documents.
+    """
+    documents = chroma_collection.get(include=['documents'])['documents']
+    return documents
     """
     Retrieves the documents from the Chroma collection.
     
