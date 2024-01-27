@@ -105,6 +105,16 @@ def _create_and_populate_chroma_collection(token_split_texts: List[str], embeddi
     
     Args:
         token_split_texts: List of text chunks split by token count.
+        embedding_model: The embedding model to use.
+    
+    Returns:
+        A Chroma collection object populated with the text chunks.
+    """
+    """
+    Creates a Chroma collection and populates it with the given text chunks.
+    
+    Args:
+        token_split_texts: List of text chunks split by token count.
     
     Returns:
         A Chroma collection object populated with the text chunks.
