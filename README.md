@@ -14,7 +14,7 @@ pip install ragxplorer
 
 **Usage**
 ```python
-from embedding_adapter import EmbeddingAdapter
+from ragxplorer import RAGxplorer
 client = RAGxplorer(embedding_model="thenlper/gte-large")
 client.load_pdf("presentation.pdf", verbose=True)
 client.visualize_query("What are the top revenue drivers for Microsoft?")
