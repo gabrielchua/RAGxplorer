@@ -1,14 +1,13 @@
 """
-Module for RAG
-"""
-import os
-import random
-import string
-from typing import (
-    List,
-    Any,
-    )
+rag.py
 
+This module provides functionalities for building and querying a vector database using ChromaDB.
+It handles operations like loading PDFs, chunking text, embedding, and retrieving documents based on queries.
+"""
+
+import os
+import uuid
+from typing import List, Any
 import chromadb
 import numpy as np
 from PyPDF2 import PdfReader
@@ -80,7 +79,7 @@ def _create_and_populate_chroma_collection(token_split_texts: List[str], embeddi
         A Chroma collection object populated with the text chunks.
     """
     chroma_client = chromadb.Client()
-    document_name = _generate_random_string(10)
+    document_name = uuid.uuid4().hex
     chroma_collection = chroma_client.create_collection(document_name, embedding_function=embedding_model)
     ids = [str(i) for i in range(len(token_split_texts))]
     chroma_collection.add(ids=ids, documents=token_split_texts)
@@ -153,17 +152,3 @@ def _load_pdf(file: Any) -> List[str]:
     pdf = PdfReader(file)
     pdf_texts = [p.extract_text().strip() for p in pdf.pages if p.extract_text()]
     return pdf_texts
-
-def _generate_random_string(length: int) -> str:
-    """
-    Generates a random string of the specified length.
-    
-    Args:
-        length: The length of the string to generate.
-    
-    Returns:
-        A random string.
-    """
-    characters = string.ascii_letters
-    random_string = ''.join(random.choice(characters) for i in range(length))
-    return random_string

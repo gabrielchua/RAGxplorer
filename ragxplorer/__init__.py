@@ -1,5 +1,9 @@
-# ragxplorer/__init__.py
+"""
+__init__.py
+
+Initializes the ragxplorer package and exposes the main classes and functions.
+"""
 
 from .ragxplorer import RAGxplorer
 
-__all__ = ['Explorer']
+__all__ = ['RAGxplorer']
