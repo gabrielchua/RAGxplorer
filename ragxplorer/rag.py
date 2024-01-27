@@ -17,29 +17,27 @@ Functions:
     _create_and_populate_chroma_collection(token_split_texts, embedding_model)
 """
 import uuid
-from typing import (
-    List,
-    Any,
-    Sequence
+def _split_text_into_chunks(pdf_texts: List[str], chunk_size: int, chunk_overlap: int) -> List[str]:
+    """
+    Splits the text from a PDF into chunks based on character count.
+    
+    Args:
+        pdf_texts: List of text extracted from PDF pages.
+        chunk_size: The number of tokens in one chunk.
+        chunk_overlap: The number of tokens shared between consecutive chunks.
+    
+    Returns:
+        A list of text chunks.
+    """
+    character_splitter = RecursiveCharacterTextSplitter(
+        separators=["\n\n", "\n", ". ", " ", ""],
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap
     )
-
-import chromadb
-from PyPDF2 import PdfReader
-from langchain.text_splitter import (
-    RecursiveCharacterTextSplitter,
-    SentenceTransformersTokenTextSplitter
-)
-
-from chromadb.utils.embedding_functions import (
-    SentenceTransformerEmbeddingFunction,
-    OpenAIEmbeddingFunction
+    return character_splitter.split_text('\n\n'.join(pdf_texts))
 )
 
 from .constants import OPENAI_EMBEDDINGS
-
-def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedding_model: str) -> chromadb.Collection:
-    """
-    Builds a vector database from a PDF file by splitting the text into chunks and embedding them.
     
     Args:
         file: The PDF file to process.
