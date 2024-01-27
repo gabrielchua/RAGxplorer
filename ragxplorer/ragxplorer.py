@@ -18,6 +18,7 @@ from chromadb.utils.embedding_functions import (
 
 import plotly.graph_objs as go
 
+from .utils import load_pdf, split_text_into_chunks, split_chunks_into_tokens, create_and_populate_chroma_collection
 from .rag import (
     build_vector_database,
     get_doc_embeddings,
