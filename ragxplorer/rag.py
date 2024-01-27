@@ -154,6 +154,15 @@ def query_chroma(chroma_collection: chromadb.Collection, query: str, top_k: int)
     return retrieved_id
 
 def get_doc_embeddings(chroma_collection: chromadb.Collection) -> np.ndarray:
+    '''
+    Retrieves the document embeddings from the Chroma collection.
+    
+    Args:
+        chroma_collection: The Chroma collection to retrieve embeddings from.
+    
+    Returns:
+        An array of embeddings.
+    '''
     """
     Retrieves the document embeddings from the Chroma collection.
     
