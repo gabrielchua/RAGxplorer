@@ -138,6 +138,17 @@ def query_chroma(chroma_collection: chromadb.Collection, query: str, top_k: int)
     Returns:
         A list of retrieved chunk IDs.
     """
+    """
+    Queries the Chroma collection for the top_k most relevant chunks to the input query.
+    
+    Args:
+        chroma_collection: The Chroma collection to query.
+        query: The input query string.
+        top_k: The number of top results to retrieve.
+    
+    Returns:
+        A list of retrieved chunk IDs.
+    """
     results = chroma_collection.query(query_texts=[query], n_results=top_k, include=['documents', 'embeddings'])
     retrieved_id = results['ids'][0]
     return retrieved_id
