@@ -1,4 +1,12 @@
-"""\n\nOpen-source tool to visualise your RAG documents \\U0001F52E
+"""
+
+Open-source tool to visualise your RAG documents \U0001F52E
+
+This module provides functionalities for building and querying a vector database using ChromaDB. It handles operations like loading PDFs, chunking text, embedding, and retrieving documents based on queries.
+rag.py
+
+This module provides functionalities for building and querying a vector database using ChromaDB.
+It handles operations like loading PDFs, chunking text, embedding, and retrieving documents based on queries.\n\nOpen-source tool to visualise your RAG documents \\U0001F52E
 
 This module provides functionalities for building and querying a vector database using ChromaDB. It handles operations like loading PDFs, chunking text, embedding, and retrieving documents based on queries.
 rag.py
@@ -21,6 +29,18 @@ from langchain.text_splitter import (
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedding_model: Any) -> chromadb.Collection:
+    """
+    Builds a vector database from a PDF file by splitting the text into chunks and embedding them.
+    
+    Args:
+        file: The PDF file to process.
+        chunk_size: The number of tokens in one chunk.
+        chunk_overlap: The number of tokens shared between consecutive chunks.
+        embedding_model: The embedding model to use.
+    
+    Returns:
+        A Chroma collection object containing the embedded chunks.
+    """
     """
     Builds a vector database from a PDF file by splitting the text into chunks and embedding them.
     
