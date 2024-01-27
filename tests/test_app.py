@@ -1,4 +1,4 @@
-import unittest
+import unittest, app
 
 from app import new_logic_function
 
