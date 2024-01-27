@@ -56,6 +56,8 @@ def suite():
     suite.addTest(TestApp('test_new_logic_function_edge_case2'))
     return suite
 
-if __name__ == '__main__':
+def main():
     unittest.TextTestRunner().run(suite())
-    unittest.main()
+
+if __name__ == '__main__':
+    main()
