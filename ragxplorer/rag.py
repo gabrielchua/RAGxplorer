@@ -15,8 +15,11 @@ from langchain.text_splitter import (
     RecursiveCharacterTextSplitter,
     SentenceTransformersTokenTextSplitter
 )
+from .utils import load_pdf, split_text_into_chunks, split_chunks_into_tokens, create_and_populate_chroma_collection
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+
+from .utils import load_pdf, split_text_into_chunks, split_chunks_into_tokens, create_and_populate_chroma_collection
 
 def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedding_model: Any) -> chromadb.Collection:
     """
@@ -30,10 +33,10 @@ def build_vector_database(file: Any, chunk_size: int, chunk_overlap: int, embedd
     Returns:
         A Chroma collection object containing the embedded chunks.
     """
-    pdf_texts = _load_pdf(file)
-    character_split_texts = _split_text_into_chunks(pdf_texts, chunk_size, chunk_overlap)
-    token_split_texts = _split_chunks_into_tokens(character_split_texts)
-    chroma_collection = _create_and_populate_chroma_collection(token_split_texts, embedding_model)
+    pdf_texts = load_pdf(file)
+    character_split_texts = split_text_into_chunks(pdf_texts, chunk_size, chunk_overlap)
+    token_split_texts = split_chunks_into_tokens(character_split_texts)
+    chroma_collection = create_and_populate_chroma_collection(token_split_texts, embedding_model)
     return chroma_collection
 
 def _split_text_into_chunks(pdf_texts: List[str], chunk_size: int, chunk_overlap: int) -> List[str]:
