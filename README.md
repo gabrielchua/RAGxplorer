@@ -4,7 +4,7 @@
 
 <img src="https://raw.githubusercontent.com/gabrielchua/RAGxplorer/main/images/logo.png" width="200">
 
-RAGxplorer is tool to build Retrieval Augmented Generation (RAG) visualisations.
+RAGxplorer is a tool to build Retrieval Augmented Generation (RAG) visualisations.
 
 # Quick Start ⚡
 **Installation**
