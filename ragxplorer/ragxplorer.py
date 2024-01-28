@@ -138,6 +138,9 @@ class RAGxplorer(BaseModel):
         """
         if self._vectordb is None or self._VizData.base_df is None:
             raise RuntimeError("Please load the pdf first.")
+        
+        if retrieval_method not in ["naive", "HyDE", "multi_qns"]:
+            raise ValueError("Invalid retrieval method. Please use naive, HyDE, or multi_qns.")
 
         self._query.original_query = query
 
@@ -162,7 +165,7 @@ class RAGxplorer(BaseModel):
                 raise OSError("OPENAI_API_KEY is not set")
             self._query.actual_search_queries = generate_hypothetical_ans(query=self._query.original_query)
 
-        elif retrieval_method == "HyDE":
+        elif retrieval_method == "multi_qns":
             if "OPENAI_API_KEY" not in os.environ:
                 raise OSError("OPENAI_API_KEY is not set")
             self._query.actual_search_queries = generate_sub_qn(query=self._query.original_query)
