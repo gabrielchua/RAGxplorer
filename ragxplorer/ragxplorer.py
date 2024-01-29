@@ -9,7 +9,9 @@ from typing import (
 
 from pydantic import BaseModel, Field
 import pandas as pd
+import umap
 
+from chromadb import Collection
 from chromadb.utils.embedding_functions import (
     SentenceTransformerEmbeddingFunction,
     OpenAIEmbeddingFunction,
@@ -179,3 +181,61 @@ class RAGxplorer(BaseModel):
         self._VizData.visualisation_df = pd.concat([self._VizData.base_df, self._VizData.query_df], axis = 0)
 
         return plot_embeddings(self._VizData.visualisation_df)
+
+    def visualise_query(self, query: str, retrieval_method: str="naive", top_k:int=5, query_shape_size:int=5) -> go.Figure:
+        """
+        Visualize the query results in a 2D projection using Plotly.
+
+        Args:
+            query (str): The query string to visualize.
+            retrieval_method (str): The method used for document retrieval. Defaults to 'naive'.
+            top_k (int): The number of top documents to retrieve.
+            query_shape_size (int): The size of the shape to represent the query in the plot.
+
+        Returns:
+            go.Figure: A Plotly figure object representing the visualization.
+
+        Raises:
+            RuntimeError: If the document has not been loaded before visualization.
+        """
+        return self.visualize_query(query=query, retrieval_method=retrieval_method, top_k=top_k, query_shape_size=query_shape_size)
+
+    def export_chroma(self) -> Collection:
+        """
+        Export the ChromaDB collection.
+        """
+        return self._vectordb
+    
+    def load_chroma(self, chroma_collection: Collection, recompute_projections: bool = False):
+        """
+        Load ChromaDB collection.
+        """
+        self._vectordb = chroma_collection
+        self._documents.embeddings = get_doc_embeddings(self._vectordb)
+        self._documents.text = get_docs(self._vectordb)
+        self._documents.ids = self._vectordb.get()['ids']
+        if recompute_projections:
+            self._projector = set_up_umap(embeddings=self._documents.embeddings)
+            self._documents.projections = get_projections(embedding=self._documents.embeddings,
+                                                        umap_transform=self._projector)
+            self._VizData.base_df = prepare_projections_df(document_ids=self._documents.ids,
+                                                                    document_projections=self._documents.projections,
+                                                                    document_text=self._documents.text)
+        
+    def export_projector(self) -> umap.UMAP:
+        """
+        Export the UMAP projector.
+        """
+        return self._projector
+    
+    def load_projector(self, umap_transform: umap.UMAP, recompute_projections: bool = False):
+        """
+        Load UMAP projector.
+        """
+        self._projector = umap_transform
+        if recompute_projections:
+            self._documents.projections = get_projections(embedding=self._documents.embeddings,
+                                                          umap_transform=self._projector)
+            self._VizData.base_df = prepare_projections_df(document_ids=self._documents.ids,
+                                                           document_projections=self._documents.projections,
+                                                           document_text=self._documents.text)
