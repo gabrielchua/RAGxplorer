@@ -30,7 +30,7 @@ Contributions to RAGxplorer are welcome. Please read our [contributing guideline
 
 # License 👀
 
-This project is licensed under the MIT license - see the LICENSE file for details.
+This project is licensed under the MIT license - see the [LICENSE](LICENSE) for details.
 
 # Acknowledgments 💙
 - DeepLearning.AI and Chroma for the inspiration and code labs in their [Advanced Retrival](https://www.deeplearning.ai/short-courses/advanced-retrieval-for-ai/) course.
