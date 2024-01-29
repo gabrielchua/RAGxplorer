@@ -182,24 +182,6 @@ class RAGxplorer(BaseModel):
 
         return plot_embeddings(self._VizData.visualisation_df)
 
-    def visualise_query(self, query: str, retrieval_method: str="naive", top_k:int=5, query_shape_size:int=5) -> go.Figure:
-        """
-        Visualize the query results in a 2D projection using Plotly.
-
-        Args:
-            query (str): The query string to visualize.
-            retrieval_method (str): The method used for document retrieval. Defaults to 'naive'.
-            top_k (int): The number of top documents to retrieve.
-            query_shape_size (int): The size of the shape to represent the query in the plot.
-
-        Returns:
-            go.Figure: A Plotly figure object representing the visualization.
-
-        Raises:
-            RuntimeError: If the document has not been loaded before visualization.
-        """
-        return self.visualize_query(query=query, retrieval_method=retrieval_method, top_k=top_k, query_shape_size=query_shape_size)
-
     def export_chroma(self) -> Collection:
         """
         Export the ChromaDB collection.
