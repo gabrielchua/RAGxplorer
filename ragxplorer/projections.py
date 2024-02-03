@@ -16,7 +16,7 @@ from .constants import VISUALISATION_SETTINGS, PLOT_SIZE
 
 os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
-def set_up_umap(embeddings: np.ndarray) -> umap.UMAP:
+def set_up_umap(embeddings: np.ndarray, umap_params:dict = None) -> umap.UMAP:
     """
     Sets up and fits a UMAP transformer to the given embeddings.
 
@@ -26,7 +26,10 @@ def set_up_umap(embeddings: np.ndarray) -> umap.UMAP:
     Returns:
         umap.UMAP: A fitted UMAP transformer.
     """
-    umap_transform = umap.UMAP().fit(embeddings)
+    if umap_params is None:
+        umap_transform = umap.UMAP().fit(embeddings)
+    else:
+        umap_transform = umap.UMAP(**umap_params).fit(embeddings)
     return umap_transform
 
 def get_projections(embedding: np.ndarray, umap_transform: umap.UMAP) -> Tuple[np.ndarray, np.ndarray]:

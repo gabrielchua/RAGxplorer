@@ -94,7 +94,7 @@ class RAGxplorer(BaseModel):
             except Exception as exc:
                 raise ValueError("Invalid embedding model. Please use all-MiniLM-L6-v2, or a valid OpenAI or HuggingFace embedding model.") from exc
 
-    def load_pdf(self, document_path: str, chunk_size: int = 1000, chunk_overlap: int = 0, verbose: bool = False):
+    def load_pdf(self, document_path: str, chunk_size: int = 1000, chunk_overlap: int = 0, verbose: bool = False, umap_params: dict = None):
         """
         Load data from a PDF file and prepare it for exploration.
         
@@ -113,7 +113,7 @@ class RAGxplorer(BaseModel):
         self._documents.ids = self._vectordb.get()['ids']
         if verbose:
             print(" ~ Reducing the dimensionality of embeddings...")
-        self._projector = set_up_umap(embeddings=self._documents.embeddings)
+        self._projector = set_up_umap(embeddings=self._documents.embeddings, umap_params=umap_params)
         self._documents.projections = get_projections(embedding=self._documents.embeddings,
                                                       umap_transform=self._projector)
         self._VizData.base_df = prepare_projections_df(document_ids=self._documents.ids,
@@ -206,7 +206,7 @@ class RAGxplorer(BaseModel):
         """
         return self._vectordb
     
-    def load_chroma(self, chroma_collection: Collection, recompute_projections: bool = False):
+    def load_chroma(self, chroma_collection: Collection, recompute_projections: bool = False, umap_params: dict = None,):
         """
         Load ChromaDB collection.
         """
@@ -215,7 +215,7 @@ class RAGxplorer(BaseModel):
         self._documents.text = get_docs(self._vectordb)
         self._documents.ids = self._vectordb.get()['ids']
         if recompute_projections:
-            self._projector = set_up_umap(embeddings=self._documents.embeddings)
+            self._projector = set_up_umap(embeddings=self._documents.embeddings, umap_params=umap_params)
             self._documents.projections = get_projections(embedding=self._documents.embeddings,
                                                         umap_transform=self._projector)
             self._VizData.base_df = prepare_projections_df(document_ids=self._documents.ids,
