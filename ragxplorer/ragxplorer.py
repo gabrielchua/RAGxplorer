@@ -122,24 +122,12 @@ class RAGxplorer(BaseModel):
         if verbose:
             print("Completed reducing dimensionality of embeddings ✓")
 
-    def visualize_query(self, query: str, retrieval_method: str="naive", top_k:int=5, query_shape_size:int=5) -> go.Figure:
-        """
-        Visualize the query results in a 2D projection using Plotly.
-
-        Args:
-            query (str): The query string to visualize.
-            retrieval_method (str): The method used for document retrieval. Defaults to 'naive'.
-            top_k (int): The number of top documents to retrieve.
-            query_shape_size (int): The size of the shape to represent the query in the plot.
-
-        Returns:
-            go.Figure: A Plotly figure object representing the visualization.
-
-        Raises:
-            RuntimeError: If the document has not been loaded before visualization.
-        """
-        if self._vectordb is None or self._VizData.base_df is None:
-            raise RuntimeError("Please load the pdf first.")
+    def visualize_query(self, query: str, retrieval_method: str="naive", top_k:int=5, query_shape_size:int=5, import_projection_data:pd.DataFrame = None) -> go.Figure:
+        if import_projection_data is not None:
+            self._VizData.base_df = import_projection_data
+        else:
+            if self._vectordb is None or self._VizData.base_df is None:
+                raise RuntimeError("Please load the pdf first.")
         
         if retrieval_method not in ["naive", "HyDE", "multi_qns"]:
             raise ValueError("Invalid retrieval method. Please use naive, HyDE, or multi_qns.")
@@ -206,7 +194,7 @@ class RAGxplorer(BaseModel):
         """
         return self._vectordb
     
-    def load_chroma(self, chroma_collection: Collection, recompute_projections: bool = False, umap_params: dict = None,):
+    def load_chroma(self, chroma_collection: Collection, initialize_projector: bool = False, recompute_projections: bool = False, umap_params: dict = None,):
         """
         Load ChromaDB collection.
         """
@@ -214,6 +202,8 @@ class RAGxplorer(BaseModel):
         self._documents.embeddings = get_doc_embeddings(self._vectordb)
         self._documents.text = get_docs(self._vectordb)
         self._documents.ids = self._vectordb.get()['ids']
+        if initialize_projector:
+            self._projector = set_up_umap(embeddings=self._documents.embeddings, umap_params=umap_params)
         if recompute_projections:
             self._projector = set_up_umap(embeddings=self._documents.embeddings, umap_params=umap_params)
             self._documents.projections = get_projections(embedding=self._documents.embeddings,
@@ -239,3 +229,12 @@ class RAGxplorer(BaseModel):
             self._VizData.base_df = prepare_projections_df(document_ids=self._documents.ids,
                                                            document_projections=self._documents.projections,
                                                            document_text=self._documents.text)
+    def run_projector(self):
+        """
+        Run UMAP projector.
+        """
+        self._documents.projections = get_projections(embedding=self._documents.embeddings,
+                                                      umap_transform=self._projector)
+        self._VizData.base_df = prepare_projections_df(document_ids=self._documents.ids,
+                                                               document_projections=self._documents.projections,
+                                                               document_text=self._documents.text)
