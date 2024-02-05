@@ -1,6 +1,7 @@
 # RAGxplorer 🦙🦺 
 
 [![PyPI version](https://img.shields.io/pypi/v/ragxplorer.svg)](https://pypi.org/project/ragxplorer/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ragxplorer.streamlit.app/)
 
 <img src="https://raw.githubusercontent.com/gabrielchua/RAGxplorer/main/images/logo.png" width="200">
 
@@ -20,9 +21,12 @@ client.load_pdf("presentation.pdf", verbose=True)
 client.visualize_query("What are the top revenue drivers for Microsoft?")
 ```
 
-# Streamlit Demo (WIP) 🔎
+# Streamlit Demo 🔎
+The demo can be found here: https://ragxplorer.streamlit.app/
 
 <img src="https://raw.githubusercontent.com/gabrielchua/RAGxplorer/main/images/example.png" width="650">
+
+View the project [here](https://github.com/gabrielchua/RAGxplorer-demo)
 
 # Contributing 👋
 
