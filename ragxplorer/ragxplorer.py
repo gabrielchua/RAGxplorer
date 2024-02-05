@@ -78,11 +78,13 @@ class RAGxplorer(BaseModel):
     def _set_embedding_model(self):
         """ Sets the embedding model """
         if self.embedding_model == 'all-MiniLM-L6-v2':
+            print(f'Embedding model chosen: {str(self.embedding_model)}')
             self._chosen_embedding_model = SentenceTransformerEmbeddingFunction()
 
         elif self.embedding_model in OPENAI_EMBEDDING_MODELS:
             if "OPENAI_API_KEY" not in os.environ:
                 raise OSError("OPENAI_API_KEY is not set")
+            print(f'Embedding model chosen: {str(self.embedding_model)}')
             self._chosen_embedding_model = OpenAIEmbeddingFunction(api_key = os.getenv("OPENAI_API_KEY"), 
                                                                    model_name = self.embedding_model)
         else:
@@ -135,8 +137,8 @@ class RAGxplorer(BaseModel):
         self._query.original_query = query
 
         if (self.embedding_model == "all-MiniLM-L6-v2") or (self.embedding_model in OPENAI_EMBEDDING_MODELS):
-            self._query.original_query_projection = get_projections(embedding=self._chosen_embedding_model(self._query.original_query),
-                                                                umap_transform=self._projector)
+            self._query.original_query_projection = get_projections(embedding=self._chosen_embedding_model([self._query.original_query]),
+                                                                    umap_transform=self._projector)
         else:
             self._query.original_query_projection = get_projections(embedding=[self._chosen_embedding_model(self._query.original_query)],
                                                                     umap_transform=self._projector)
@@ -161,16 +163,16 @@ class RAGxplorer(BaseModel):
             self._query.actual_search_queries = generate_sub_qn(query=self._query.original_query)
 
         self._query.retrieved_docs = query_chroma(chroma_collection=self._vectordb,
-                                            query=self._query.actual_search_queries,
-                                            top_k=top_k)
+                                                  query=self._query.actual_search_queries,
+                                                  top_k=top_k)
 
         self._VizData.base_df.loc[self._VizData.base_df['id'].isin(self._query.retrieved_docs), "category"] = "Retrieved"
-            
+        
         self._VizData.visualisation_df = pd.concat([self._VizData.base_df, self._VizData.query_df], axis = 0)
 
         return plot_embeddings(self._VizData.visualisation_df)
 
-    def visualise_query(self, query: str, retrieval_method: str="naive", top_k:int=5, query_shape_size:int=5) -> go.Figure:
+    def visualise_query(self, query: str, retrieval_method: str="naive", top_k:int=5, query_shape_size:int=5, import_projection_data:pd.DataFrame = None) -> go.Figure:
         """
         Visualize the query results in a 2D projection using Plotly.
 
@@ -186,7 +188,7 @@ class RAGxplorer(BaseModel):
         Raises:
             RuntimeError: If the document has not been loaded before visualization.
         """
-        return self.visualize_query(query=query, retrieval_method=retrieval_method, top_k=top_k, query_shape_size=query_shape_size)
+        return self.visualize_query(query=query, retrieval_method=retrieval_method, top_k=top_k, query_shape_size=query_shape_size, import_projection_data = None)
 
     def export_chroma(self) -> Collection:
         """
@@ -194,7 +196,7 @@ class RAGxplorer(BaseModel):
         """
         return self._vectordb
     
-    def load_chroma(self, chroma_collection: Collection, initialize_projector: bool = False, recompute_projections: bool = False, umap_params: dict = None,):
+    def load_chroma(self, chroma_collection: Collection, initialize_projector: bool = False, recompute_projections: bool = False, umap_params: dict = None,verbose:bool=True):
         """
         Load ChromaDB collection.
         """
@@ -203,8 +205,12 @@ class RAGxplorer(BaseModel):
         self._documents.text = get_docs(self._vectordb)
         self._documents.ids = self._vectordb.get()['ids']
         if initialize_projector:
+            if verbose:
+                print("Setting up umap projector")
             self._projector = set_up_umap(embeddings=self._documents.embeddings, umap_params=umap_params)
         if recompute_projections:
+            if verbose:
+                print("Recomputing projections")
             self._projector = set_up_umap(embeddings=self._documents.embeddings, umap_params=umap_params)
             self._documents.projections = get_projections(embedding=self._documents.embeddings,
                                                         umap_transform=self._projector)
