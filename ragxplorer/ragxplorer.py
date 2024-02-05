@@ -78,13 +78,11 @@ class RAGxplorer(BaseModel):
     def _set_embedding_model(self):
         """ Sets the embedding model """
         if self.embedding_model == 'all-MiniLM-L6-v2':
-            print(f'Embedding model chosen: {str(self.embedding_model)}')
             self._chosen_embedding_model = SentenceTransformerEmbeddingFunction()
 
         elif self.embedding_model in OPENAI_EMBEDDING_MODELS:
             if "OPENAI_API_KEY" not in os.environ:
                 raise OSError("OPENAI_API_KEY is not set")
-            print(f'Embedding model chosen: {str(self.embedding_model)}')
             self._chosen_embedding_model = OpenAIEmbeddingFunction(api_key = os.getenv("OPENAI_API_KEY"), 
                                                                    model_name = self.embedding_model)
         else:
@@ -137,6 +135,8 @@ class RAGxplorer(BaseModel):
         self._query.original_query = query
 
         if (self.embedding_model == "all-MiniLM-L6-v2") or (self.embedding_model in OPENAI_EMBEDDING_MODELS):
+            # Brackets around the query required as per latest update to openai client (https://platform.openai.com/docs/guides/embeddings/use-cases). 
+            # It doesn't look like chromadb updated to reflect this.
             self._query.original_query_projection = get_projections(embedding=self._chosen_embedding_model([self._query.original_query]),
                                                                     umap_transform=self._projector)
         else:
