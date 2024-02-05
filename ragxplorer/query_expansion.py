@@ -13,8 +13,6 @@ from openai import OpenAI
 
 from .constants import MULTIPLE_QNS_SYS_MSG, HYDE_SYS_MSG
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
 def generate_sub_qn(query: str) -> List[str]:
     """
     Generates sub-questions for a given query using the GPT-4 model.
@@ -68,6 +66,8 @@ def _chat_completion(sys_msg: str, prompt: str, response_format: str) -> Union[s
     Raises:
         OpenAIError: If an error occurs in the OpenAI API call.
     """
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    
     response = client.chat.completions.create(
         model="gpt-4-1106-preview",
         messages=[{'role': 'system', 'content': sys_msg}, 
