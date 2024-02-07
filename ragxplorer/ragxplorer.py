@@ -134,12 +134,17 @@ class RAGxplorer(BaseModel):
 
         self._query.original_query = query
 
-        if (self.embedding_model == "all-MiniLM-L6-v2") or (self.embedding_model in OPENAI_EMBEDDING_MODELS):
+        if self.embedding_model == "all-MiniLM-L6-v2":
+            # TODO: untested if this works
+            self._query.original_query_projection = get_projections(embedding=self._chosen_embedding_model([self._query.original_query]),
+                                                                    umap_transform=self._projector)
+        elif self.embedding_model in OPENAI_EMBEDDING_MODELS:
             # Brackets around the query required as per latest update to openai client (https://platform.openai.com/docs/guides/embeddings/use-cases). 
             # It doesn't look like chromadb updated to reflect this.
             self._query.original_query_projection = get_projections(embedding=self._chosen_embedding_model([self._query.original_query]),
                                                                     umap_transform=self._projector)
         else:
+            # TODO: untested if this works
             self._query.original_query_projection = get_projections(embedding=[self._chosen_embedding_model(self._query.original_query)],
                                                                     umap_transform=self._projector)
 
