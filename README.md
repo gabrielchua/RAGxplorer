@@ -24,11 +24,11 @@ client.load_pdf("presentation.pdf", verbose=True)
 client.visualize_query("What are the top revenue drivers for Microsoft?")
 ```
 
-A quickstart Jupyter notebook tutorial on how to use `ragxplorer` can be found at <https://github.com/gabrielchua/RAGxplorer/blob/main/quickstart.ipynb>
+A quickstart Jupyter notebook tutorial on how to use `ragxplorer` can be found at <https://github.com/gabrielchua/RAGxplorer/blob/main/tutorials/quickstart.ipynb>
 
 Or as a Colab notebook:
 
-<a target="_blank" href="https://colab.research.google.com/github/vince-lam/RAGxplorer/blob/issue29-create-tutorials/quickstart.ipynb">
+<a target="_blank" href="https://colab.research.google.com/github/vince-lam/RAGxplorer/blob/issue29-create-tutorials/tutorials/quickstart.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
