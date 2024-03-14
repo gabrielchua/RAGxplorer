@@ -34,7 +34,7 @@ Or as a Colab notebook:
 
 # Streamlit Demo 🔎
 
-The demo can be found here: <https://ragxplorer.streamlit.app/>
+The demo can be found here: <https://newragxplorerdemo.app/>
 
 <img src="https://raw.githubusercontent.com/gabrielchua/RAGxplorer/main/images/example.png" width="650">
 
