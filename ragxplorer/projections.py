@@ -43,6 +43,9 @@ def get_projections(embedding: np.ndarray, umap_transform: umap.UMAP) -> Tuple[n
     Returns:
         Tuple[np.ndarray, np.ndarray]: X and Y coordinates of the projected embeddings.
     """
+    # Ensure embeddings are 2D
+    if embedding.ndim > 2:
+        embedding = embedding.reshape(embedding.shape[0], -1)
     projections = _project_embeddings(embedding, umap_transform)
     x = projections[:, 0]
     y = projections[:, 1]
@@ -59,6 +62,9 @@ def _project_embeddings(embeddings: np.ndarray, umap_transform: umap.UMAP) -> np
     Returns:
         np.ndarray: An array of projected embeddings.
     """
+    # Flatten embeddings to 2D
+    if embeddings.ndim > 2:
+        embeddings = embeddings.reshape(embeddings.shape[0], -1)
     umap_embeddings = np.empty((len(embeddings), 2))
     for i, embedding in tqdm(enumerate(embeddings), total=len(embeddings)):
         umap_embeddings[i] = umap_transform.transform([embedding])
